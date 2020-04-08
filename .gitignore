@@ -1,4 +1,5 @@
 # Binaries for programs and plugins
+/2019_*
 *.exe
 *.exe~
 *.dll
