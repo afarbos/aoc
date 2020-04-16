@@ -5,8 +5,8 @@ import (
 	"log"
 	"strconv"
 
-	"github.com/afarbos/aoc/pkg/logging"
 	"github.com/afarbos/aoc/pkg/read"
+	"github.com/afarbos/aoc/pkg/utils"
 )
 
 const (
@@ -18,8 +18,7 @@ const (
 var flagInput string
 
 func init() {
-	flag.StringVar(&flagInput, "input", "cmd/2019_4/input", "The input file")
-	logging.Flags()
+	utils.Init(&flagInput)
 }
 
 func isPasswordValid(password int, largerGroup bool) bool {
@@ -56,6 +55,7 @@ func passwordCount(start, end int, largerGroup bool) int {
 }
 
 func main() {
+	flag.Parse()
 	inputRange := read.Read(flagInput, separator)
 
 	pwdCount := passwordCount(inputRange[0], inputRange[1], false)

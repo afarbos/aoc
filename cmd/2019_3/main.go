@@ -8,16 +8,15 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/afarbos/aoc/pkg/logging"
 	"github.com/afarbos/aoc/pkg/read"
+	"github.com/afarbos/aoc/pkg/utils"
 )
 
 const (
-	separator    = "\n"
-	wireSepartor = ","
-
-	resClosestManhattanDistance = 1337
 	resClosestIntersection      = 65356
+	resClosestManhattanDistance = 1337
+	separator                   = "\n"
+	wireSepartor                = ","
 )
 
 type point struct {
@@ -37,8 +36,7 @@ type grid struct {
 var flagInput string
 
 func init() {
-	flag.StringVar(&flagInput, "input", "cmd/2019_3/input", "The input file")
-	logging.Flags()
+	utils.Init(&flagInput)
 }
 
 func abs(x int) int {
@@ -143,7 +141,8 @@ func (pt *point) manhattanDistance() int {
 }
 
 func main() {
-	wirePaths := read.Str(flagInput, separator)
+	flag.Parse()
+	wirePaths := read.Strings(flagInput, separator)
 	g := newGrid(wirePaths)
 
 	if manhattanDistance := g.closestManhattanDistance(); manhattanDistance != resClosestManhattanDistance {

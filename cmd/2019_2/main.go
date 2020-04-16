@@ -4,23 +4,24 @@ import (
 	"flag"
 	"log"
 
-	"github.com/afarbos/aoc/pkg/logging"
 	"github.com/afarbos/aoc/pkg/read"
+	"github.com/afarbos/aoc/pkg/utils"
 )
 
 const (
-	instruction1 = 12
-	instruction2 = 2
-	maxNounVerb  = 100
-	output       = 19690720
-	separator    = ","
+	instruction1    = 12
+	instruction2    = 2
+	maxNounVerb     = 100
+	output          = 19690720
+	resCompute      = 4090701
+	resFindNounVerb = 6421
+	separator       = ","
 )
 
 var flagInput string
 
 func init() {
-	flag.StringVar(&flagInput, "input", "cmd/2019_2/input", "The input file")
-	logging.Flags()
+	utils.Init(&flagInput)
 }
 
 func compute(instructions []int, noun, verb int) int {
@@ -55,11 +56,20 @@ func findNounVerb(instructions []int, maxNoun, maxVerb, expectedOutput int) int 
 }
 
 func main() {
+	flag.Parse()
 	instructions := read.Read(flagInput, separator)
 
 	instructions2 := make([]int, len(instructions))
 	copy(instructions2, instructions)
 
-	log.Println(compute(instructions, instruction1, instruction2))
-	log.Println(findNounVerb(instructions2, maxNounVerb, maxNounVerb, output))
+	if code := compute(instructions, instruction1, instruction2); code != resCompute {
+		log.Fatal("expected code ", resCompute, " got ", code)
+	} else {
+		log.Println(code)
+	}
+	if nounVerb := findNounVerb(instructions2, maxNounVerb, maxNounVerb, output); nounVerb != resFindNounVerb {
+		log.Fatal("expected nounVerb ", resFindNounVerb, " got ", nounVerb)
+	} else {
+		log.Println(nounVerb)
+	}
 }

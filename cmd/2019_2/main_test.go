@@ -3,7 +3,7 @@ package main
 import (
 	"testing"
 
-	"github.com/afarbos/aoc/pkg/logging"
+	"github.com/afarbos/aoc/pkg/utils"
 )
 
 var computeInstructions = map[int][]int{
@@ -24,8 +24,7 @@ func TestCompute(t *testing.T) {
 }
 
 func BenchmarkMain(b *testing.B) {
-	flagInput = "input"
-	logging.Disable()
+	utils.EnableTestMain(&flagInput)
 	for i := 0; i < b.N; i++ {
 		main()
 	}

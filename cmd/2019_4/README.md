@@ -1,4 +1,5 @@
---- Day 4: Secure Container ---
+# --- Day 4: Secure Container ---
+
 You arrive at the Venus fuel depot only to discover it's protected by a password. The Elves had written the password on a sticky note, but someone threw it out.
 
 However, they do remember a few key facts about the password:
@@ -16,7 +17,8 @@ How many different passwords within the range given in your puzzle input meet th
 
 Your puzzle answer was 1099.
 
---- Part Two ---
+## --- Part Two ---
+
 An Elf just remembered one more important detail: the two adjacent matching digits are not part of a larger group of matching digits.
 
 Given this additional criterion, but still ignoring the range rule, the following are now true:

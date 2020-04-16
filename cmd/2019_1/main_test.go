@@ -3,7 +3,7 @@ package main
 import (
 	"testing"
 
-	"github.com/afarbos/aoc/pkg/logging"
+	"github.com/afarbos/aoc/pkg/utils"
 )
 
 func TestRequiredFuel(t *testing.T) {
@@ -43,8 +43,7 @@ func TestSumFuelRequirements(t *testing.T) {
 }
 
 func BenchmarkMain(b *testing.B) {
-	flagInput = "input"
-	logging.Disable()
+	utils.EnableTestMain(&flagInput)
 	for i := 0; i < b.N; i++ {
 		main()
 	}
