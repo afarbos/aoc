@@ -1,0 +1,14 @@
+run:
+  modules-download-mode: vendor
+linters-settings:
+  goimports:
+    local-prefixes: github.com/afarbos/aoc/
+linters:
+  enable:
+    - gocritic
+    - gofmt
+    - goimports
+    - golint
+    - misspell
+    - stylecheck
+    - unparam

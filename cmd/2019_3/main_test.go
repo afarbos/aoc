@@ -23,14 +23,14 @@ const (
 
 var (
 	testDataClosestManhattanDistance = map[int][]string{
-		manhattanDistance1: []string{example1Wire1, example1Wire2},
-		manhattanDistance2: []string{example2Wire1, example2Wire2},
-		manhattanDistance3: []string{example3Wire1, example3Wire2},
+		manhattanDistance1: {example1Wire1, example1Wire2},
+		manhattanDistance2: {example2Wire1, example2Wire2},
+		manhattanDistance3: {example3Wire1, example3Wire2},
 	}
 	testDataClosestIntersection = map[int][]string{
-		closestIntersection1: []string{example1Wire1, example1Wire2},
-		closestIntersection2: []string{example2Wire1, example2Wire2},
-		closestIntersection3: []string{example3Wire1, example3Wire2},
+		closestIntersection1: {example1Wire1, example1Wire2},
+		closestIntersection2: {example2Wire1, example2Wire2},
+		closestIntersection3: {example3Wire1, example3Wire2},
 	}
 )
 

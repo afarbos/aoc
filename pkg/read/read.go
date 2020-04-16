@@ -7,7 +7,7 @@ import (
 	"strings"
 )
 
-func ReadStr(path, sep string) []string {
+func Str(path, sep string) []string {
 	b, err := ioutil.ReadFile(path)
 	if err != nil {
 		log.Fatal(err)
@@ -16,7 +16,7 @@ func ReadStr(path, sep string) []string {
 }
 
 func Read(path, sep string) []int {
-	s := ReadStr(path, sep)
+	s := Str(path, sep)
 	res := make([]int, len(s))
 	for index, v := range s {
 		i, err := strconv.Atoi(v)

@@ -4,7 +4,7 @@ CMD_RUN := $(CMD_DIRS:%=%_run)
 CMD_TEST := $(CMD_DIRS:%=%_test)
 GO_TEST_CMD := go test -coverprofile=coverage.txt -covermode=atomic -bench=.
 
-all: ${CMD_RUN} ${CMD_TEST}
+all: ${CMD_RUN} lint ${CMD_TEST}
 
 %_build:
 	go build -o $* cmd/$*/main.go
@@ -21,3 +21,6 @@ run: ${CMD_RUN}
 
 test:
 	${GO_TEST_CMD} ./...
+
+lint:
+	golangci-lint run -v

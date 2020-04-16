@@ -9,11 +9,11 @@ import (
 )
 
 const (
-	instruction_1 = 12
-	instruction_2 = 2
-	maxNounVerb   = 100
-	output        = 19690720
-	separator     = ","
+	instruction1 = 12
+	instruction2 = 2
+	maxNounVerb  = 100
+	output       = 19690720
+	separator    = ","
 )
 
 var flagInput string
@@ -60,6 +60,6 @@ func main() {
 	instructions2 := make([]int, len(instructions))
 	copy(instructions2, instructions)
 
-	log.Println(compute(instructions, instruction_1, instruction_2))
+	log.Println(compute(instructions, instruction1, instruction2))
 	log.Println(findNounVerb(instructions2, maxNounVerb, maxNounVerb, output))
 }

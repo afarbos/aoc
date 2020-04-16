@@ -96,9 +96,9 @@ func (g *grid) add(position *point, coordinate *int, step, currentStep, index in
 		next = -1
 	}
 
-	for i := next; i != step+next; i = i + next {
+	for i := next; i != step+next; i += next {
 		currentStep++
-		*coordinate = *coordinate + next
+		*coordinate += next
 		if _, ok := g.grid[*position]; ok {
 			for _, w := range g.grid[*position] {
 				if index != w.index {
@@ -143,7 +143,7 @@ func (pt *point) manhattanDistance() int {
 }
 
 func main() {
-	wirePaths := read.ReadStr(flagInput, separator)
+	wirePaths := read.Str(flagInput, separator)
 	g := newGrid(wirePaths)
 
 	if manhattanDistance := g.closestManhattanDistance(); manhattanDistance != resClosestManhattanDistance {

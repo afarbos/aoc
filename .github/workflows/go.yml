@@ -21,6 +21,8 @@ jobs:
 
     - name: Check out code into the Go module directory
       uses: actions/checkout@v2
+      with:
+        fetch-depth: 1
 
     - name: Get dependencies
       run: |
@@ -33,6 +35,7 @@ jobs:
     - name: Build
       run: make build
 
+
     - name: Test
       run: make test
 
@@ -44,3 +47,19 @@ jobs:
 
     - name: Run
       run: make run
+
+  lint:
+    name: Static Analysis
+    runs-on: ubuntu-latest
+    steps:
+
+    - name: Check out code into the Go module directory
+      uses: actions/checkout@v2
+      with:
+          fetch-depth: 1
+
+    - name: GolangCI-Lint
+      uses: reviewdog/action-golangci-lint@v1
+      with:
+          github_token: ${{ secrets.GITHUBTOKEN }}
+          golangci_lint_flags: "-v --config=.golangci.yml"
