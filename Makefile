@@ -8,8 +8,12 @@ all: ${CMD_RUN} ${CMD_TEST}
 %_build:
 	go build -o $* cmd/$*/main.go
 
+build: ${CMD_BUILD}
+
 %_run: %_build
 	time ./$*
+
+run: ${CMD_RUN}
 
 %_test:
 	go test -cover -bench=. ./cmd/$*/...
