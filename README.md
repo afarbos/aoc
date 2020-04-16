@@ -1,6 +1,8 @@
 # aoc
+
 [Advent of Code](https://adventofcode.com/)
 
+- [![codecov](https://codecov.io/gh/afarbos/aoc/branch/master/graph/badge.svg)](https://codecov.io/gh/afarbos/aoc)
 
 - [2015](https://adventofcode.com/2015)
 - [2016](https://adventofcode.com/2016)

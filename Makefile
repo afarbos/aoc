@@ -2,6 +2,7 @@ CMD_DIRS :=   $(patsubst cmd/%/., %, $(wildcard cmd/*/.))
 CMD_BUILD := $(CMD_DIRS:%=%_build)
 CMD_RUN := $(CMD_DIRS:%=%_run)
 CMD_TEST := $(CMD_DIRS:%=%_test)
+GO_TEST_CMD := go test -coverprofile=coverage.txt -covermode=atomic -bench=.
 
 all: ${CMD_RUN} ${CMD_TEST}
 
@@ -16,6 +17,7 @@ build: ${CMD_BUILD}
 run: ${CMD_RUN}
 
 %_test:
-	go test -cover -bench=. ./cmd/$*/...
+	${GO_TEST_CMD} ./cmd/$*/...
 
-test: ${CMD_TEST}
+test:
+	${GO_TEST_CMD} ./...
