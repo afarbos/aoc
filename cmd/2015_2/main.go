@@ -28,6 +28,9 @@ func totalWrappingPaperArea(giftSizes []string) int {
 	sum := 0
 	for _, giftSize := range giftSizes {
 		dims := strings.Split(giftSize, dimSeparator)
+		if len(dims) < 3 {
+			continue
+		}
 		w, err := strconv.Atoi(dims[0])
 		if err != nil {
 			log.Fatal(err)
@@ -53,6 +56,9 @@ func totalRibbon(giftSizes []string) int {
 	sum := 0
 	for _, giftSize := range giftSizes {
 		dims := strings.Split(giftSize, dimSeparator)
+		if len(dims) < 3 {
+			continue
+		}
 		w, err := strconv.Atoi(dims[0])
 		if err != nil {
 			log.Fatal(err)

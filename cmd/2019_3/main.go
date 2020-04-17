@@ -51,6 +51,9 @@ func newGrid(wirePaths []string) *grid {
 	g := new(grid)
 	g.grid = make(map[point][]wire)
 	for index, wirePath := range wirePaths {
+		if wirePath == "" {
+			continue
+		}
 		g.cross = []point{}
 		g.addWire(wirePath, index)
 	}

@@ -40,9 +40,13 @@ func findHashCoin(secretKey, expectedPrefix string) int {
 	log.Fatal("no hash coin found")
 	return 0
 }
+
 func main() {
 	flag.Parse()
 	secretKey := read.String(flagInput)
+	if len(secretKey) != 0 {
+		secretKey = secretKey[:len(secretKey)-1]
+	}
 	if hashCoin := findHashCoin(secretKey, fiveZero); hashCoin != resFiveZero {
 		log.Fatal("expected ", resFiveZero, " got ", hashCoin)
 	} else {

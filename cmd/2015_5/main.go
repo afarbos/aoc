@@ -45,6 +45,9 @@ func isBadStr(s string) bool {
 func countNiceString(strSlice []string) int {
 	count := 0
 	for _, str := range strSlice {
+		if len(str) < 2 {
+			continue
+		}
 		vowelsCount, charTwiceInRow, containBadStr := 0, false, false
 		for pos, char := range str {
 			if isVowels(char) {
@@ -69,6 +72,9 @@ func countNiceString(strSlice []string) int {
 func countReallyNiceString(strSlice []string) int {
 	count := 0
 	for _, str := range strSlice {
+		if len(str) < 3 {
+			continue
+		}
 		lettersPairCount := make(map[string]int)
 		hasDoublePair, repeatOneLetterAppart, overlap := false, false, false
 		for pos := range str[1:] {

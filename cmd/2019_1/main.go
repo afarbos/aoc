@@ -22,6 +22,9 @@ func init() {
 }
 
 func requiredFuel(mass int) int {
+	if mass < 9 {
+		return 0
+	}
 	return mass/3 - 2
 }
 
