@@ -10,7 +10,8 @@ import (
 )
 
 const (
-	resHousesCount = 2565
+	resHousesCount     = 2565
+	resHousesCountRobo = 2639
 )
 
 var flagInput string
@@ -53,5 +54,9 @@ func main() {
 	} else {
 		log.Println(housesCount)
 	}
-	log.Println(countAtLeastOnePresent(moves, true))
+	if housesCount := countAtLeastOnePresent(moves, true); housesCount != resHousesCountRobo {
+		log.Fatal("expected ", resHousesCountRobo, " got ", housesCount)
+	} else {
+		log.Println(housesCount)
+	}
 }

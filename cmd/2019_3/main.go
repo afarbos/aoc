@@ -8,6 +8,7 @@ import (
 	"strconv"
 	"strings"
 
+	"github.com/afarbos/aoc/pkg/mathematic"
 	"github.com/afarbos/aoc/pkg/read"
 	"github.com/afarbos/aoc/pkg/utils"
 )
@@ -44,13 +45,6 @@ func abs(x int) int {
 		return -x
 	}
 	return x
-}
-
-func min(a, b int) int {
-	if a < b {
-		return a
-	}
-	return b
 }
 
 func newGrid(wirePaths []string) *grid {
@@ -112,7 +106,7 @@ func (g *grid) add(position *point, coordinate *int, step, currentStep, index in
 func (g *grid) closestManhattanDistance() int {
 	res := math.MaxInt32
 	for _, pt := range g.cross {
-		res = min(res, pt.manhattanDistance())
+		res = mathematic.MinInt(res, pt.manhattanDistance())
 	}
 	return res
 }
@@ -125,13 +119,13 @@ func (g *grid) closestIntersection() int {
 			if _, ok := localSteps[wire.index]; !ok {
 				localSteps[wire.index] = math.MaxInt32
 			}
-			localSteps[wire.index] = min(localSteps[wire.index], wire.step)
+			localSteps[wire.index] = mathematic.MinInt(localSteps[wire.index], wire.step)
 		}
 		intersection := 0
 		for _, lStep := range localSteps {
 			intersection += lStep
 		}
-		res = min(res, intersection)
+		res = mathematic.MinInt(res, intersection)
 	}
 	return res
 }

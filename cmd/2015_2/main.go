@@ -6,6 +6,7 @@ import (
 	"strconv"
 	"strings"
 
+	"github.com/afarbos/aoc/pkg/mathematic"
 	"github.com/afarbos/aoc/pkg/read"
 	"github.com/afarbos/aoc/pkg/utils"
 )
@@ -21,16 +22,6 @@ var flagInput string
 
 func init() {
 	utils.Init(&flagInput)
-}
-
-func minInt(nums ...int) int {
-	res := nums[0]
-	for _, num := range nums {
-		if num < res {
-			res = num
-		}
-	}
-	return res
 }
 
 func totalWrappingPaperArea(giftSizes []string) int {
@@ -53,7 +44,7 @@ func totalWrappingPaperArea(giftSizes []string) int {
 		}
 
 		side1, side2, side3 := w*h, h*l, l*w
-		sum += 2*side1 + 2*side2 + 2*side3 + minInt(side1, side2, side3)
+		sum += 2*side1 + 2*side2 + 2*side3 + mathematic.MinInt(side1, side2, side3)
 	}
 	return sum
 }
@@ -76,7 +67,7 @@ func totalRibbon(giftSizes []string) int {
 		if err != nil {
 			log.Fatal(err)
 		}
-		sum += 2*minInt(l+w, w+h, h+l) + l*w*h
+		sum += 2*mathematic.MinInt(l+w, w+h, h+l) + l*w*h
 	}
 	return sum
 }
