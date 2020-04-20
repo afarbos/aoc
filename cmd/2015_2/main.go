@@ -24,58 +24,59 @@ func init() {
 	utils.Init(&flagInput)
 }
 
-func totalWrappingPaperArea(giftSizes []string) int {
-	sum := 0
-	for _, giftSize := range giftSizes {
-		dims := strings.Split(giftSize, dimSeparator)
-		if len(dims) < 3 {
-			continue
-		}
-		w, err := strconv.Atoi(dims[0])
-		if err != nil {
-			log.Fatal(err)
-		}
-
-		h, err := strconv.Atoi(dims[1])
-		if err != nil {
-			log.Fatal(err)
-		}
-
-		l, err := strconv.Atoi(dims[2])
-		if err != nil {
-			log.Fatal(err)
-		}
-
-		side1, side2, side3 := w*h, h*l, l*w
-		sum += 2*side1 + 2*side2 + 2*side3 + mathematic.MinInt(side1, side2, side3)
+func wrappingPaperArea(giftSize string) int {
+	dims := strings.Split(giftSize, dimSeparator)
+	if len(dims) < 3 {
+		return 0
 	}
-	return sum
+	w, err := strconv.Atoi(dims[0])
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	h, err := strconv.Atoi(dims[1])
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	l, err := strconv.Atoi(dims[2])
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	side1, side2, side3 := w*h, h*l, l*w
+	return 2*side1 + 2*side2 + 2*side3 + mathematic.MinInt(side1, side2, side3)
+}
+
+func totalWrappingPaperArea(giftSizes []string) int {
+	return mathematic.SumString(wrappingPaperArea, giftSizes...)
+}
+
+func ribbon(giftSize string) int {
+	dims := strings.Split(giftSize, dimSeparator)
+	if len(dims) < 3 {
+		return 0
+	}
+	w, err := strconv.Atoi(dims[0])
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	h, err := strconv.Atoi(dims[1])
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	l, err := strconv.Atoi(dims[2])
+	if err != nil {
+		log.Fatal(err)
+	}
+	return 2*mathematic.MinInt(l+w, w+h, h+l) + l*w*h
+
 }
 
 func totalRibbon(giftSizes []string) int {
-	sum := 0
-	for _, giftSize := range giftSizes {
-		dims := strings.Split(giftSize, dimSeparator)
-		if len(dims) < 3 {
-			continue
-		}
-		w, err := strconv.Atoi(dims[0])
-		if err != nil {
-			log.Fatal(err)
-		}
-
-		h, err := strconv.Atoi(dims[1])
-		if err != nil {
-			log.Fatal(err)
-		}
-
-		l, err := strconv.Atoi(dims[2])
-		if err != nil {
-			log.Fatal(err)
-		}
-		sum += 2*mathematic.MinInt(l+w, w+h, h+l) + l*w*h
-	}
-	return sum
+	return mathematic.SumString(ribbon, giftSizes...)
 }
 
 func main() {

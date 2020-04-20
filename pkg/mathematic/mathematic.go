@@ -19,3 +19,16 @@ func MaxInt(nums ...int) int {
 	}
 	return res
 }
+
+func SumString(f func(string) int, strings ...string) int {
+	res := 0
+
+	for _, str := range strings {
+		if str == "" {
+			continue
+		}
+
+		res += f(str)
+	}
+	return res
+}
