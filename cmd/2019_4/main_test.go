@@ -36,7 +36,7 @@ var (
 
 func TestIsPasswordValid(t *testing.T) {
 	for pwd, expectedRes := range testDataPwdValid {
-		if isValid := isPasswordValid(pwd, false); isValid != expectedRes {
+		if isValid, _ := isPasswordValid(pwd, false); isValid != expectedRes {
 			t.Error("Is password valid expected", expectedRes, "got", pwd)
 		}
 	}
@@ -44,7 +44,7 @@ func TestIsPasswordValid(t *testing.T) {
 
 func TestIsPasswordValidLarge(t *testing.T) {
 	for pwd, expectedRes := range testDataPwdValidLarge {
-		if isValid := isPasswordValid(pwd, true); isValid != expectedRes {
+		if isValid, _ := isPasswordValid(pwd, true); isValid != expectedRes {
 			t.Error("Is password large valid expected", expectedRes, "got", pwd)
 		}
 	}

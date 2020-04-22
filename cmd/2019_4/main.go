@@ -20,16 +20,20 @@ func init() {
 	utils.Init(&flagInput)
 }
 
-func isPasswordValid(password int, largerGroup bool) bool {
+func isPasswordValid(password int, largerGroup bool) (bool, int) {
 	pwd := []byte(strconv.Itoa(password))
 	if len(pwd) != 6 {
-		return false
+		return false, 0
 	}
 
 	sameAdjacentDigits := false
 	for i, digit := range pwd[1:] {
 		if digit < pwd[i] {
-			return false
+			divPower := 1
+			for j := 0; j < len(pwd)-i-2; j++ {
+				divPower *= 10
+			}
+			return false, (password/divPower+1)*divPower - password - 1
 		} else if digit == pwd[i] {
 			if largerGroup {
 				if (i < 1 || digit != pwd[i-1]) && (i+2 >= len(pwd) || digit != pwd[i+2]) {
@@ -40,15 +44,17 @@ func isPasswordValid(password int, largerGroup bool) bool {
 			}
 		}
 	}
-	return sameAdjacentDigits
+	return sameAdjacentDigits, 0
 }
 
 func passwordCount(start, end int, largerGroup bool) int {
 	res := 0
 	for i := start; i < end; i++ {
-		if isPasswordValid(i, largerGroup) {
+		isValid, next := isPasswordValid(i, largerGroup)
+		if isValid {
 			res++
 		}
+		i += next
 	}
 	return res
 }
