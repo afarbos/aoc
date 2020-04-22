@@ -1,7 +1,9 @@
 package mathematic
 
+import "math"
+
 func MinInt(nums ...int) int {
-	res := nums[0]
+	res := math.MaxInt32
 	for _, num := range nums {
 		if num < res {
 			res = num
@@ -11,7 +13,7 @@ func MinInt(nums ...int) int {
 }
 
 func MaxInt(nums ...int) int {
-	res := nums[0]
+	res := math.MinInt32
 	for _, num := range nums {
 		if num > res {
 			res = num
