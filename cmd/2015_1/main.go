@@ -50,14 +50,6 @@ func basement(b []byte) int {
 func main() {
 	flag.Parse()
 	parenthesis := read.Bytes(flagInput)
-	if lastFloor := floor(parenthesis); lastFloor != resFloor {
-		log.Fatal("Expected last floor ", resFloor, " got ", lastFloor)
-	} else {
-		log.Println(lastFloor)
-	}
-	if firstBasement := basement(parenthesis); firstBasement != resBasement {
-		log.Fatal("Expected first basement ", resBasement, " got ", firstBasement)
-	} else {
-		log.Println(firstBasement)
-	}
+	utils.AssertEqual(floor(parenthesis), resFloor)
+	utils.AssertEqual(basement(parenthesis), resBasement)
 }

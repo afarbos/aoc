@@ -113,15 +113,6 @@ func countDimLitLights(instructions []string) int {
 func main() {
 	flag.Parse()
 	instructions := read.Strings(flagInput, separator)
-
-	if count := countLitLights(instructions); count != resCounLitLights {
-		log.Fatal("Expected ", resCounLitLights, " got ", count)
-	} else {
-		log.Println(count)
-	}
-	if count := countDimLitLights(instructions); count != resCountDimLitLights {
-		log.Fatal("Expected ", resCountDimLitLights, " got ", count)
-	} else {
-		log.Println(count)
-	}
+	utils.AssertEqual(countLitLights(instructions), resCounLitLights)
+	utils.AssertEqual(countDimLitLights(instructions), resCountDimLitLights)
 }

@@ -47,14 +47,6 @@ func main() {
 	if len(secretKey) != 0 {
 		secretKey = secretKey[:len(secretKey)-1]
 	}
-	if hashCoin := findHashCoin(secretKey, fiveZero); hashCoin != resFiveZero {
-		log.Fatal("expected ", resFiveZero, " got ", hashCoin)
-	} else {
-		log.Println(hashCoin)
-	}
-	if hashCoin := findHashCoin(secretKey, sixZero); hashCoin != resSixZero {
-		log.Fatal("expected ", resSixZero, " got ", hashCoin)
-	} else {
-		log.Println(hashCoin)
-	}
+	utils.AssertEqual(findHashCoin(secretKey, fiveZero), resFiveZero)
+	utils.AssertEqual(findHashCoin(secretKey, sixZero), resSixZero)
 }

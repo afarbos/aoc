@@ -3,7 +3,6 @@ package main
 import (
 	"flag"
 	"image"
-	"log"
 
 	"github.com/afarbos/aoc/pkg/read"
 	"github.com/afarbos/aoc/pkg/utils"
@@ -49,14 +48,6 @@ func countAtLeastOnePresent(moves []byte, roboSanta bool) int {
 func main() {
 	flag.Parse()
 	moves := read.Bytes(flagInput)
-	if housesCount := countAtLeastOnePresent(moves, false); housesCount != resHousesCount {
-		log.Fatal("expected ", resHousesCount, " got ", housesCount)
-	} else {
-		log.Println(housesCount)
-	}
-	if housesCount := countAtLeastOnePresent(moves, true); housesCount != resHousesCountRobo {
-		log.Fatal("expected ", resHousesCountRobo, " got ", housesCount)
-	} else {
-		log.Println(housesCount)
-	}
+	utils.AssertEqual(countAtLeastOnePresent(moves, false), resHousesCount)
+	utils.AssertEqual(countAtLeastOnePresent(moves, true), resHousesCountRobo)
 }

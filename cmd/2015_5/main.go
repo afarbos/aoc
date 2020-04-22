@@ -2,7 +2,6 @@ package main
 
 import (
 	"flag"
-	"log"
 
 	"github.com/afarbos/aoc/pkg/read"
 	"github.com/afarbos/aoc/pkg/utils"
@@ -109,14 +108,6 @@ func countReallyNiceString(strSlice []string) int {
 func main() {
 	flag.Parse()
 	stringSlice := read.Strings(flagInput, separator)
-	if count := countNiceString(stringSlice); count != resCountNiceString {
-		log.Fatal("Expected ", resCountNiceString, " got ", count)
-	} else {
-		log.Println(count)
-	}
-	if count := countReallyNiceString(stringSlice); count != resCountReallyNiceString {
-		log.Fatal("Expected ", resCountReallyNiceString, " got ", count)
-	} else {
-		log.Println(count)
-	}
+	utils.AssertEqual(countNiceString(stringSlice), resCountNiceString)
+	utils.AssertEqual(countReallyNiceString(stringSlice), resCountReallyNiceString)
 }

@@ -2,7 +2,6 @@ package main
 
 import (
 	"flag"
-	"log"
 	"math"
 
 	"github.com/afarbos/aoc/pkg/read"
@@ -49,14 +48,6 @@ func sumFuelRequirements(masses []int, f func(int) int) int {
 func main() {
 	flag.Parse()
 	masses := read.Read(flagInput, separator)
-	if fuel := sumFuelRequirements(masses, requiredFuel); fuel != resSumFuelRequirements {
-		log.Fatal("Total fuel expected ", resSumFuelRequirements, " got ", fuel)
-	} else {
-		log.Println(fuel)
-	}
-	if fuel := sumFuelRequirements(masses, requiredFuelTotal); fuel != resTotalSumFuelRequirements {
-		log.Fatal("Total fuel expected ", resTotalSumFuelRequirements, " got ", fuel)
-	} else {
-		log.Println(fuel)
-	}
+	utils.AssertEqual(sumFuelRequirements(masses, requiredFuel), resSumFuelRequirements)
+	utils.AssertEqual(sumFuelRequirements(masses, requiredFuelTotal), resTotalSumFuelRequirements)
 }

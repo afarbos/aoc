@@ -112,18 +112,9 @@ func main() {
 	flag.Parse()
 	instructions := read.Strings(flagInput, separator)
 
-	var signal uint16
-	if signal = wireSignal(instructions); signal != resWireA {
-		log.Fatal("Expected ", resWireA, " got ", signal)
-	} else {
-		log.Println(signal)
-	}
+	var signal = wireSignal(instructions)
+	utils.AssertEqual(int(signal), resWireA)
 
 	newInstructions := append(instructions, fmt.Sprintf(mov, strconv.FormatUint(uint64(signal), base10), overrideSignal))
-
-	if signal = wireSignal(newInstructions); signal != resWireAWithOverride {
-		log.Fatal("Expected ", resWireAWithOverride, " got ", signal)
-	} else {
-		log.Println(signal)
-	}
+	utils.AssertEqual(int(wireSignal(newInstructions)), resWireAWithOverride)
 }

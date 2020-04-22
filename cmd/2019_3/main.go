@@ -142,14 +142,6 @@ func main() {
 	wirePaths := read.Strings(flagInput, separator)
 	g := newGrid(wirePaths)
 
-	if manhattanDistance := g.closestManhattanDistance(); manhattanDistance != resClosestManhattanDistance {
-		log.Fatal("Expected ", resClosestManhattanDistance, " got ", manhattanDistance)
-	} else {
-		log.Println(g.closestManhattanDistance())
-	}
-	if intersection := g.closestIntersection(); intersection != resClosestIntersection {
-		log.Fatal("Expected ", resClosestIntersection, " got ", intersection)
-	} else {
-		log.Println(intersection)
-	}
+	utils.AssertEqual(g.closestManhattanDistance(), resClosestManhattanDistance)
+	utils.AssertEqual(g.closestIntersection(), resClosestIntersection)
 }

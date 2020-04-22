@@ -2,6 +2,7 @@ package utils
 
 import (
 	"flag"
+	"log"
 	"os"
 	"path"
 
@@ -21,4 +22,12 @@ func Init(inputFlag *string) {
 func EnableTestMain(inputFlag *string) {
 	*inputFlag = input
 	logging.Disable()
+}
+
+func AssertEqual(res, expected int) {
+	if res != expected {
+		log.Fatal("Expected ", expected, " got ", res)
+	} else {
+		log.Println(res)
+	}
 }

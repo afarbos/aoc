@@ -2,7 +2,6 @@ package main
 
 import (
 	"flag"
-	"log"
 	"strconv"
 
 	"github.com/afarbos/aoc/pkg/read"
@@ -58,16 +57,6 @@ func main() {
 	flag.Parse()
 	inputRange := read.Read(flagInput, separator)
 
-	pwdCount := passwordCount(inputRange[0], inputRange[1], false)
-	if pwdCount != resPasswordCount {
-		log.Fatal("Expected ", resPasswordCount, " got ", pwdCount)
-	} else {
-		log.Println(pwdCount)
-	}
-	pwdCount = passwordCount(inputRange[0], inputRange[1], true)
-	if pwdCount != resPasswordCountLarge {
-		log.Fatal("Expected ", resPasswordCountLarge, " got ", pwdCount)
-	} else {
-		log.Println(passwordCount(inputRange[0], inputRange[1], true))
-	}
+	utils.AssertEqual(passwordCount(inputRange[0], inputRange[1], false), resPasswordCount)
+	utils.AssertEqual(passwordCount(inputRange[0], inputRange[1], true), resPasswordCountLarge)
 }

@@ -37,15 +37,6 @@ func diffStrQuote(str string) int {
 func main() {
 	flag.Parse()
 	strings := read.Strings(flagInput, separator)
-	if diff := mathematic.SumString(diffStrUnquote, strings...); diff != resDiffStrUnquote {
-		log.Fatal("Expected ", resDiffStrUnquote, " got ", diff)
-	} else {
-		log.Println(diff)
-	}
-
-	if diff := mathematic.SumString(diffStrQuote, strings...); diff != resDiffStrQuote {
-		log.Fatal("Expected ", resDiffStrQuote, " got ", diff)
-	} else {
-		log.Println(diff)
-	}
+	utils.AssertEqual(mathematic.SumString(diffStrUnquote, strings...), resDiffStrUnquote)
+	utils.AssertEqual(mathematic.SumString(diffStrQuote, strings...), resDiffStrQuote)
 }

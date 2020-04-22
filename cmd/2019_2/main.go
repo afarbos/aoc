@@ -62,14 +62,6 @@ func main() {
 	instructions2 := make([]int, len(instructions))
 	copy(instructions2, instructions)
 
-	if code := compute(instructions, instruction1, instruction2); code != resCompute {
-		log.Fatal("expected code ", resCompute, " got ", code)
-	} else {
-		log.Println(code)
-	}
-	if nounVerb := findNounVerb(instructions2, maxNounVerb, maxNounVerb, output); nounVerb != resFindNounVerb {
-		log.Fatal("expected nounVerb ", resFindNounVerb, " got ", nounVerb)
-	} else {
-		log.Println(nounVerb)
-	}
+	utils.AssertEqual(compute(instructions, instruction1, instruction2), resCompute)
+	utils.AssertEqual(findNounVerb(instructions2, maxNounVerb, maxNounVerb, output), resFindNounVerb)
 }
