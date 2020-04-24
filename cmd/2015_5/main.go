@@ -3,6 +3,7 @@ package main
 import (
 	"flag"
 
+	"github.com/afarbos/aoc/pkg/mathematic"
 	"github.com/afarbos/aoc/pkg/read"
 	"github.com/afarbos/aoc/pkg/utils"
 )
@@ -41,83 +42,82 @@ func isBadStr(s string) bool {
 	return s == ab || s == cd || s == pq || s == xy
 }
 
-func countNice(strSlice []string) int {
-	count := 0
+func nice(str string) int {
+	if len(str) < 2 {
+		return 0
+	}
 
-	for _, str := range strSlice {
-		if len(str) < 2 {
-			continue
+	vowelsCount, charTwiceInRow, containBadStr := 0, false, false
+
+	for pos, char := range str {
+		if isVowels(char) {
+			vowelsCount++
 		}
 
-		vowelsCount, charTwiceInRow, containBadStr := 0, false, false
-
-		for pos, char := range str {
-			if isVowels(char) {
-				vowelsCount++
+		if pos != 0 {
+			if str[pos] == str[pos-1] {
+				charTwiceInRow = true
 			}
 
-			if pos != 0 {
-				if str[pos] == str[pos-1] {
-					charTwiceInRow = true
-				}
-
-				if isBadStr(str[pos-1 : pos+1]) {
-					containBadStr = true
-				}
+			if isBadStr(str[pos-1 : pos+1]) {
+				containBadStr = true
 			}
-		}
-
-		if vowelsCount > maxNotNiceVowelsCount && charTwiceInRow && !containBadStr {
-			count++
 		}
 	}
 
-	return count
+	if vowelsCount > maxNotNiceVowelsCount && charTwiceInRow && !containBadStr {
+		return 1
+	}
+
+	return 0
+}
+
+func countNice(strSlice []string) int {
+	return mathematic.SumString(nice, strSlice...)
+}
+
+func reallyNice(str string) int {
+	if len(str) < 3 {
+		return 0
+	}
+
+	lettersPairCount := make(map[string]int)
+	hasDoublePair, repeatOneLetterAppart, overlap := false, false, false
+
+	for pos := range str[1:] {
+		if overlap {
+			overlap = false
+			continue
+		}
+
+		currentPair := str[pos : pos+2]
+
+		if _, ok := lettersPairCount[currentPair]; !ok {
+			lettersPairCount[currentPair] = 1
+		} else {
+			lettersPairCount[currentPair]++
+			if lettersPairCount[currentPair] > 1 {
+				hasDoublePair = true
+			}
+		}
+
+		if pos < len(str)-2 && currentPair == str[pos+1:pos+3] {
+			overlap = true
+		}
+
+		if pos < len(str)-2 && str[pos] == str[pos+2] {
+			repeatOneLetterAppart = true
+		}
+	}
+
+	if repeatOneLetterAppart && hasDoublePair {
+		return 1
+	}
+	return 0
 }
 
 func countReallyNice(strSlice []string) int {
-	count := 0
-
-	for _, str := range strSlice {
-		if len(str) < 3 {
-			continue
-		}
-
-		lettersPairCount := make(map[string]int)
-		hasDoublePair, repeatOneLetterAppart, overlap := false, false, false
-
-		for pos := range str[1:] {
-			if overlap {
-				overlap = false
-				continue
-			}
-
-			currentPair := str[pos : pos+2]
-
-			if _, ok := lettersPairCount[currentPair]; !ok {
-				lettersPairCount[currentPair] = 1
-			} else {
-				lettersPairCount[currentPair]++
-				if lettersPairCount[currentPair] > 1 {
-					hasDoublePair = true
-				}
-			}
-
-			if pos < len(str)-2 && currentPair == str[pos+1:pos+3] {
-				overlap = true
-			}
-
-			if pos < len(str)-2 && str[pos] == str[pos+2] {
-				repeatOneLetterAppart = true
-			}
-		}
-
-		if repeatOneLetterAppart && hasDoublePair {
-			count++
-		}
-	}
-
-	return count
+	return mathematic.SumString(reallyNice, strSlice...)
 }
 
 func main() {
