@@ -3,6 +3,7 @@
 
 - [![Go](https://github.com/afarbos/aoc/workflows/Go/badge.svg)](https://github.com/afarbos/aoc/actions?query=workflow%3AGo+branch%3Amaster)
 - [![Go Report Card](https://goreportcard.com/badge/github.com/afarbos/aoc)](https://goreportcard.com/report/github.com/afarbos/aoc)
+- [![Maintainability](https://api.codeclimate.com/v1/badges/3da7115306d7eb4b4b57/maintainability)](https://codeclimate.com/github/afarbos/aoc/maintainability)
 - [![codebeat badge](https://codebeat.co/badges/73c7e1e8-bfa2-469d-95e6-d39f80ff8825)](https://codebeat.co/projects/github-com-afarbos-aoc-master)
 - [![codecov](https://codecov.io/gh/afarbos/aoc/branch/master/graph/badge.svg)](https://codecov.io/gh/afarbos/aoc)
 
