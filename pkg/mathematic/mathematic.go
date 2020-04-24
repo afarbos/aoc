@@ -2,6 +2,7 @@ package mathematic
 
 import "math"
 
+// MinInt returns the smaller int of nums.
 func MinInt(nums ...int) int {
 	res := math.MaxInt32
 	for _, num := range nums {
@@ -13,6 +14,7 @@ func MinInt(nums ...int) int {
 	return res
 }
 
+// MaxInt returns the larger int of nums.
 func MaxInt(nums ...int) int {
 	res := math.MinInt32
 	for _, num := range nums {
@@ -24,6 +26,7 @@ func MaxInt(nums ...int) int {
 	return res
 }
 
+// SumString return the sum of f(string).
 func SumString(f func(string) int, strings ...string) int {
 	res := 0
 

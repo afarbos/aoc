@@ -2,6 +2,7 @@ package convert
 
 import "strconv"
 
+// Atoi convert a slice of string to type int.
 func Atoi(strings ...string) ([]int, error) {
 	var err error
 

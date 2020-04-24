@@ -9,6 +9,7 @@ import (
 
 const eol = "\n"
 
+// Bytes read a file and return a slice of byte.
 func Bytes(path string) []byte {
 	b, err := ioutil.ReadFile(path)
 	if err != nil {
@@ -18,14 +19,17 @@ func Bytes(path string) []byte {
 	return b
 }
 
+// String read a file and return a slice of string.
 func String(path string) string {
 	return string(Bytes(path))
 }
 
+// Strings read a file and return a slice of string, splitted with sep.
 func Strings(path, sep string) []string {
 	return strings.Split(String(path), sep)
 }
 
+// Read read a file and return a slice of int, splitted with sep.
 func Read(path, sep string) []int {
 	s := Strings(path, sep)
 	res := make([]int, len(s))
