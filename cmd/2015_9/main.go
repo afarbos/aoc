@@ -24,10 +24,14 @@ func init() {
 }
 
 func Perm(set map[string]struct{}, f func([]string)) {
-	var list []string
+	var (
+		list = make([]string, len(set))
+		i    = 0
+	)
 
 	for v := range set {
-		list = append(list, v)
+		list[i] = v
+		i++
 	}
 
 	perm(list, f, 0)

@@ -5,12 +5,31 @@ linters-settings:
     local-prefixes: github.com/afarbos/aoc/
 linters:
   enable:
+    - bodyclose
+    - depguard
+    - dogsled
+    - dupl
+    - funlen
+    - goconst
     - gocritic
+    - gocyclo
+    - godot
+    - godox
     - gofmt
     - goimports
     - golint
+    - gomodguard
+    - goprintffuncname
+    - interfacer
+    - lll
+    - maligned
     - misspell
+    - nakedret
+    - prealloc
+    - rowserrcheck
+    - scopelint
     - stylecheck
     - unconvert
     - unparam
+    - whitespace
     - wsl
