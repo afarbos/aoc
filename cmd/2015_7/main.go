@@ -51,7 +51,17 @@ func newWires() *wires {
 	return &wires{make(map[string]wire), make(map[string]uint16)}
 }
 
-func (w *wires) Add(dst, op, src1, src2 string) {
+func (w *wires) Add(instruction string) {
+	var op, src1, src2, dst string
+
+	if instruction == "" {
+	} else if n, err := fmt.Sscanf(instruction, mov, &src1, &dst); err == nil && n == 2 {
+	} else if n, err := fmt.Sscanf(instruction, not, &op, &src1, &dst); err == nil && n == 3 {
+	} else if n, err := fmt.Sscanf(instruction, generic, &src1, &op, &src2, &dst); err == nil && n == 4 {
+	} else {
+		log.Fatal("Unknown instruction: ", instruction)
+	}
+
 	w.wires[dst] = wire{op, src1, src2}
 }
 
@@ -98,18 +108,7 @@ func wireSignal(instructions []string, key ...string) uint16 {
 	}
 
 	for _, instruction := range instructions {
-		var op, src1, src2, dst string
-
-		if instruction == "" {
-			continue
-		} else if n, err := fmt.Sscanf(instruction, mov, &src1, &dst); err == nil && n == 2 {
-		} else if n, err := fmt.Sscanf(instruction, not, &op, &src1, &dst); err == nil && n == 3 {
-		} else if n, err := fmt.Sscanf(instruction, generic, &src1, &op, &src2, &dst); err == nil && n == 4 {
-		} else {
-			log.Fatal("Unknown instruction: ", instruction)
-		}
-
-		wires.Add(dst, op, src1, src2)
+		wires.Add(instruction)
 	}
 
 	return wires.signalValue(ret)

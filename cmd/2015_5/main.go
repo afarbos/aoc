@@ -55,13 +55,8 @@ func nice(str string) int {
 		}
 
 		if pos != 0 {
-			if str[pos] == str[pos-1] {
-				charTwiceInRow = true
-			}
-
-			if isBadStr(str[pos-1 : pos+1]) {
-				containBadStr = true
-			}
+			charTwiceInRow = charTwiceInRow || str[pos] == str[pos-1]
+			containBadStr = containBadStr || isBadStr(str[pos-1:pos+1])
 		}
 	}
 
@@ -81,7 +76,7 @@ func reallyNice(str string) int {
 		return 0
 	}
 
-	lettersPairCount := make(map[string]int)
+	lettersPairCount := make(map[string]struct{})
 	hasDoublePair, repeatOneLetterAppart, overlap := false, false, false
 
 	for pos := range str[1:] {
@@ -93,26 +88,19 @@ func reallyNice(str string) int {
 		currentPair := str[pos : pos+2]
 
 		if _, ok := lettersPairCount[currentPair]; !ok {
-			lettersPairCount[currentPair] = 1
-		} else {
-			lettersPairCount[currentPair]++
-			if lettersPairCount[currentPair] > 1 {
-				hasDoublePair = true
-			}
+			lettersPairCount[currentPair] = struct{}{}
+		} else if !hasDoublePair {
+			hasDoublePair = true
 		}
 
-		if pos < len(str)-2 && currentPair == str[pos+1:pos+3] {
-			overlap = true
-		}
-
-		if pos < len(str)-2 && str[pos] == str[pos+2] {
-			repeatOneLetterAppart = true
-		}
+		overlap = overlap || pos < len(str)-2 && currentPair == str[pos+1:pos+3]
+		repeatOneLetterAppart = repeatOneLetterAppart || pos < len(str)-2 && str[pos] == str[pos+2]
 	}
 
 	if repeatOneLetterAppart && hasDoublePair {
 		return 1
 	}
+
 	return 0
 }
 

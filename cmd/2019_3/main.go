@@ -101,15 +101,17 @@ func (g *grid) add(position *point, coordinate *int, step, currentStep, index in
 
 		*coordinate += next
 
-		if _, ok := g.grid[*position]; ok {
-			for _, w := range g.grid[*position] {
-				if index != w.index {
-					g.cross = append(g.cross, *position)
-				}
-			}
+		g.grid[*position] = append(g.grid[*position], wire{index, currentStep})
+
+		if _, ok := g.grid[*position]; !ok {
+			continue
 		}
 
-		g.grid[*position] = append(g.grid[*position], wire{index, currentStep})
+		for _, w := range g.grid[*position] {
+			if index != w.index {
+				g.cross = append(g.cross, *position)
+			}
+		}
 	}
 
 	return currentStep
