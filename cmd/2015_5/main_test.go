@@ -16,7 +16,7 @@ var (
 		'w': false,
 	}
 
-	testDataCountNiceString = map[string]int{
+	testDataCountNice = map[string]int{
 		"ugknbfddgicrmopn": 1,
 		"aaa":              1,
 		"jchzalrnumimnmhp": 0,
@@ -24,7 +24,7 @@ var (
 		"dvszwmarrgswjxmb": 0,
 	}
 
-	testDataCountReallyNiceString = map[string]int{
+	testDataCountReallyNice = map[string]int{
 		"rxexcbwhiywwwwnu": 1,
 		"qjhvhtzxzqqjkmpb": 1,
 		"xxyxx":            1,
@@ -41,17 +41,17 @@ func TestIsVowels(t *testing.T) {
 	}
 }
 
-func TestCountNiceString(t *testing.T) {
-	for str, resExpected := range testDataCountNiceString {
-		if count := countNiceString([]string{str}); count != resExpected {
+func TestCountNice(t *testing.T) {
+	for str, resExpected := range testDataCountNice {
+		if count := countNice([]string{str}); count != resExpected {
 			t.Error(str, " expected ", resExpected, " got ", count)
 		}
 	}
 }
 
-func TestCountReallyNiceString(t *testing.T) {
-	for str, resExpected := range testDataCountReallyNiceString {
-		if count := countReallyNiceString([]string{str}); count != resExpected {
+func TestCountReallyNice(t *testing.T) {
+	for str, resExpected := range testDataCountReallyNice {
+		if count := countReallyNice([]string{str}); count != resExpected {
 			t.Error(str, " expected ", resExpected, " got ", count)
 		}
 	}

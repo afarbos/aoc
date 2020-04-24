@@ -23,20 +23,6 @@ func init() {
 	utils.Init(&flagInput)
 }
 
-func Perm(set map[string]struct{}, f func([]string)) {
-	var (
-		list = make([]string, len(set))
-		i    = 0
-	)
-
-	for v := range set {
-		list[i] = v
-		i++
-	}
-
-	perm(list, f, 0)
-}
-
 func perm(a []string, f func([]string), i int) {
 	if i > len(a) {
 		f(a)
@@ -50,6 +36,20 @@ func perm(a []string, f func([]string), i int) {
 		perm(a, f, i+1)
 		a[i], a[j] = a[j], a[i]
 	}
+}
+
+func perms(set map[string]struct{}, f func([]string)) {
+	var (
+		list = make([]string, len(set))
+		i    = 0
+	)
+
+	for v := range set {
+		list[i] = v
+		i++
+	}
+
+	perm(list, f, 0)
 }
 
 func fDistances(directions []string, f func(...int) int) int {
@@ -77,7 +77,7 @@ func fDistances(directions []string, f func(...int) int) int {
 
 	var res int = f()
 
-	Perm(cities, func(cities []string) {
+	perms(cities, func(cities []string) {
 		var sum int
 		for i, city := range cities[1:] {
 			sum += cityGraph[cities[i]][city]

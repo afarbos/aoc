@@ -25,8 +25,8 @@ const (
 
 	maxNotNiceVowelsCount = 2
 
-	resCountNiceString       = 236
-	resCountReallyNiceString = 51
+	resCountNice       = 236
+	resCountReallyNice = 51
 )
 
 func init() {
@@ -41,7 +41,7 @@ func isBadStr(s string) bool {
 	return s == ab || s == cd || s == pq || s == xy
 }
 
-func countNiceString(strSlice []string) int {
+func countNice(strSlice []string) int {
 	count := 0
 
 	for _, str := range strSlice {
@@ -75,7 +75,7 @@ func countNiceString(strSlice []string) int {
 	return count
 }
 
-func countReallyNiceString(strSlice []string) int {
+func countReallyNice(strSlice []string) int {
 	count := 0
 
 	for _, str := range strSlice {
@@ -124,6 +124,6 @@ func main() {
 	flag.Parse()
 
 	stringSlice := read.Strings(flagInput, separator)
-	utils.AssertEqual(countNiceString(stringSlice), resCountNiceString)
-	utils.AssertEqual(countReallyNiceString(stringSlice), resCountReallyNiceString)
+	utils.AssertEqual(countNice(stringSlice), resCountNice)
+	utils.AssertEqual(countReallyNice(stringSlice), resCountReallyNice)
 }

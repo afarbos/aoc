@@ -34,12 +34,12 @@ const (
 	opRshift = "RSHIFT"
 )
 
-type Wires struct {
-	wires map[string]Wire
+type wires struct {
+	wires map[string]wire
 	cache map[string]uint16
 }
 
-type Wire struct {
+type wire struct {
 	op, src1, src2 string
 }
 
@@ -47,15 +47,15 @@ func init() {
 	utils.Init(&flagInput)
 }
 
-func newWires() *Wires {
-	return &Wires{make(map[string]Wire), make(map[string]uint16)}
+func newWires() *wires {
+	return &wires{make(map[string]wire), make(map[string]uint16)}
 }
 
-func (w *Wires) Add(dst, op, src1, src2 string) {
-	w.wires[dst] = Wire{op, src1, src2}
+func (w *wires) Add(dst, op, src1, src2 string) {
+	w.wires[dst] = wire{op, src1, src2}
 }
 
-func (w *Wires) signalValue(key string) uint16 {
+func (w *wires) signalValue(key string) uint16 {
 	var res uint16
 
 	if res, err := strconv.ParseUint(key, base10, bitSize16); err == nil {
