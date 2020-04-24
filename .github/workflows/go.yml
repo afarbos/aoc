@@ -65,4 +65,6 @@ jobs:
           golangci_lint_flags: "-v --config=.golangci.yml"
 
     - name: Go Report Card Refresh
-      uses: creekorful/goreportcard-action@v1.0
+      uses: afarbos/go-report-card-action@v1.0
+      with:
+        threshold: '100'
