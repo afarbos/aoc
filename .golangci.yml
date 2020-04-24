@@ -11,4 +11,6 @@ linters:
     - golint
     - misspell
     - stylecheck
+    - unconvert
     - unparam
+    - wsl

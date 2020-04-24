@@ -21,6 +21,7 @@ func init() {
 
 func floor(b []byte) int {
 	floor := 0
+
 	for _, b := range b {
 		if b == "("[0] {
 			floor++
@@ -28,27 +29,33 @@ func floor(b []byte) int {
 			floor--
 		}
 	}
+
 	return floor
 }
 
 func basement(b []byte) int {
 	floor := 0
+
 	for i, b := range b {
 		if b == "("[0] {
 			floor++
 		} else if b == ")"[0] {
 			floor--
 		}
+
 		if floor < 0 {
 			return i + 1
 		}
 	}
+
 	log.Fatal("Did not find the position")
+
 	return 0
 }
 
 func main() {
 	flag.Parse()
+
 	parenthesis := read.Bytes(flagInput)
 	utils.AssertEqual(floor(parenthesis), resFloor)
 	utils.AssertEqual(basement(parenthesis), resBasement)

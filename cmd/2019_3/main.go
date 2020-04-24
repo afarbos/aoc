@@ -44,19 +44,23 @@ func abs(x int) int {
 	if x < 0 {
 		return -x
 	}
+
 	return x
 }
 
 func newGrid(wirePaths []string) *grid {
 	g := new(grid)
 	g.grid = make(map[point][]wire)
+
 	for index, wirePath := range wirePaths {
 		if wirePath == "" {
 			continue
 		}
+
 		g.cross = []point{}
 		g.addWire(wirePath, index)
 	}
+
 	return g
 }
 
@@ -72,6 +76,7 @@ func (g *grid) addWire(wirePath string, index int) {
 		if err != nil {
 			log.Fatal(err)
 		}
+
 		switch direction[0] {
 		case 'R': // Right
 			currentStep = g.add(&currentPt, &currentPt.X, step, currentStep, index)
@@ -93,7 +98,9 @@ func (g *grid) add(position *point, coordinate *int, step, currentStep, index in
 
 	for i := next; i != step+next; i += next {
 		currentStep++
+
 		*coordinate += next
+
 		if _, ok := g.grid[*position]; ok {
 			for _, w := range g.grid[*position] {
 				if index != w.index {
@@ -101,8 +108,10 @@ func (g *grid) add(position *point, coordinate *int, step, currentStep, index in
 				}
 			}
 		}
+
 		g.grid[*position] = append(g.grid[*position], wire{index, currentStep})
 	}
+
 	return currentStep
 }
 
@@ -111,25 +120,32 @@ func (g *grid) closestManhattanDistance() int {
 	for _, pt := range g.cross {
 		res = mathematic.MinInt(res, pt.manhattanDistance())
 	}
+
 	return res
 }
 
 func (g *grid) closestIntersection() int {
 	res := math.MaxInt32
+
 	for _, pt := range g.cross {
 		localSteps := map[int]int{}
+
 		for _, wire := range g.grid[pt] {
 			if _, ok := localSteps[wire.index]; !ok {
 				localSteps[wire.index] = math.MaxInt32
 			}
+
 			localSteps[wire.index] = mathematic.MinInt(localSteps[wire.index], wire.step)
 		}
+
 		intersection := 0
 		for _, lStep := range localSteps {
 			intersection += lStep
 		}
+
 		res = mathematic.MinInt(res, intersection)
 	}
+
 	return res
 }
 
@@ -139,6 +155,7 @@ func (pt *point) manhattanDistance() int {
 
 func main() {
 	flag.Parse()
+
 	wirePaths := read.Strings(flagInput, separator)
 	g := newGrid(wirePaths)
 

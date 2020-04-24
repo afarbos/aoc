@@ -57,6 +57,7 @@ func (w *Wires) Add(dst, op, src1, src2 string) {
 
 func (w *Wires) signalValue(key string) uint16 {
 	var res uint16
+
 	if res, err := strconv.ParseUint(key, base10, bitSize16); err == nil {
 		return uint16(res)
 	} else if res, ok := w.cache[key]; ok {
@@ -67,6 +68,7 @@ func (w *Wires) signalValue(key string) uint16 {
 	if !ok {
 		log.Fatal("Unknown wire", key)
 	}
+
 	switch currentWire.op {
 	case opMov:
 		res = w.signalValue(currentWire.src1)
@@ -83,7 +85,9 @@ func (w *Wires) signalValue(key string) uint16 {
 	default:
 		log.Fatal("Unknown operator", currentWire.op)
 	}
+
 	w.cache[key] = res
+
 	return res
 }
 
@@ -95,6 +99,7 @@ func wireSignal(instructions []string, key ...string) uint16 {
 
 	for _, instruction := range instructions {
 		var op, src1, src2, dst string
+
 		if instruction == "" {
 			continue
 		} else if n, err := fmt.Sscanf(instruction, mov, &src1, &dst); err == nil && n == 2 {
@@ -103,16 +108,21 @@ func wireSignal(instructions []string, key ...string) uint16 {
 		} else {
 			log.Fatal("Unknown instruction: ", instruction)
 		}
+
 		wires.Add(dst, op, src1, src2)
 	}
+
 	return wires.signalValue(ret)
 }
 
 func main() {
 	flag.Parse()
-	instructions := read.Strings(flagInput, separator)
 
-	var signal = wireSignal(instructions)
+	var (
+		instructions = read.Strings(flagInput, separator)
+		signal       = wireSignal(instructions)
+	)
+
 	utils.AssertEqual(int(signal), resWireA)
 
 	newInstructions := append(instructions, fmt.Sprintf(mov, strconv.FormatUint(uint64(signal), base10), overrideSignal))

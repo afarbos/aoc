@@ -27,6 +27,7 @@ func diffStrUnquote(str string) int {
 	if err != nil {
 		log.Fatal(err)
 	}
+
 	return len(str) - len(s)
 }
 
@@ -36,6 +37,7 @@ func diffStrQuote(str string) int {
 
 func main() {
 	flag.Parse()
+
 	strings := read.Strings(flagInput, separator)
 	utils.AssertEqual(mathematic.SumString(diffStrUnquote, strings...), resDiffStrUnquote)
 	utils.AssertEqual(mathematic.SumString(diffStrQuote, strings...), resDiffStrQuote)

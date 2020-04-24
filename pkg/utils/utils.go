@@ -21,6 +21,7 @@ func Init(inputFlag *string) {
 
 func EnableTestMain(inputFlag *string) {
 	*inputFlag = input
+
 	logging.Disable()
 }
 

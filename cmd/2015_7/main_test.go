@@ -45,6 +45,7 @@ func TestWireSignal(t *testing.T) {
 
 func BenchmarkMain(b *testing.B) {
 	utils.EnableTestMain(&flagInput)
+
 	for i := 0; i < b.N; i++ {
 		main()
 	}

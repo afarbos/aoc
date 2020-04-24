@@ -14,6 +14,7 @@ func Bytes(path string) []byte {
 	if err != nil {
 		log.Fatal(err)
 	}
+
 	return b
 }
 
@@ -28,15 +29,19 @@ func Strings(path, sep string) []string {
 func Read(path, sep string) []int {
 	s := Strings(path, sep)
 	res := make([]int, len(s))
+
 	for index, v := range s {
 		if v == "" {
 			continue
 		}
+
 		i, err := strconv.Atoi(strings.TrimSuffix(v, eol))
 		if err != nil {
 			log.Fatal(err)
 		}
+
 		res[index] = i
 	}
+
 	return res
 }

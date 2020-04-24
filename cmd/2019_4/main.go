@@ -27,12 +27,14 @@ func isPasswordValid(password int, largerGroup bool) (bool, int) {
 	}
 
 	sameAdjacentDigits := false
+
 	for i, digit := range pwd[1:] {
 		if digit < pwd[i] {
 			divPower := 1
 			for j := 0; j < len(pwd)-i-2; j++ {
 				divPower *= 10
 			}
+
 			return false, (password/divPower+1)*divPower - password - 1
 		} else if digit == pwd[i] {
 			if largerGroup {
@@ -44,25 +46,29 @@ func isPasswordValid(password int, largerGroup bool) (bool, int) {
 			}
 		}
 	}
+
 	return sameAdjacentDigits, 0
 }
 
 func passwordCount(start, end int, largerGroup bool) int {
 	res := 0
+
 	for i := start; i < end; i++ {
 		isValid, next := isPasswordValid(i, largerGroup)
 		if isValid {
 			res++
 		}
+
 		i += next
 	}
+
 	return res
 }
 
 func main() {
 	flag.Parse()
-	inputRange := read.Read(flagInput, separator)
 
+	inputRange := read.Read(flagInput, separator)
 	utils.AssertEqual(passwordCount(inputRange[0], inputRange[1], false), resPasswordCount)
 	utils.AssertEqual(passwordCount(inputRange[0], inputRange[1], true), resPasswordCountLarge)
 }

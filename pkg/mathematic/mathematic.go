@@ -9,6 +9,7 @@ func MinInt(nums ...int) int {
 			res = num
 		}
 	}
+
 	return res
 }
 
@@ -19,6 +20,7 @@ func MaxInt(nums ...int) int {
 			res = num
 		}
 	}
+
 	return res
 }
 
@@ -32,5 +34,6 @@ func SumString(f func(string) int, strings ...string) int {
 
 		res += f(str)
 	}
+
 	return res
 }

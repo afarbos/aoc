@@ -38,6 +38,7 @@ func wrappingPaperArea(giftSize string) int {
 	w, h, l := sizes[0], sizes[1], sizes[2]
 
 	side1, side2, side3 := w*h, h*l, l*w
+
 	return 2*side1 + 2*side2 + 2*side3 + mathematic.MinInt(side1, side2, side3)
 }
 
@@ -59,7 +60,6 @@ func ribbon(giftSize string) int {
 	w, h, l := sizes[0], sizes[1], sizes[2]
 
 	return 2*mathematic.MinInt(l+w, w+h, h+l) + l*w*h
-
 }
 
 func totalRibbon(giftSizes []string) int {
@@ -68,6 +68,7 @@ func totalRibbon(giftSizes []string) int {
 
 func main() {
 	flag.Parse()
+
 	giftSizes := read.Strings(flagInput, separator)
 	utils.AssertEqual(totalWrappingPaperArea(giftSizes), resTotalWrappingPaperArea)
 	utils.AssertEqual(totalRibbon(giftSizes), resTotalRibbon)

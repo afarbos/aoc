@@ -38,7 +38,9 @@ func perm(a []string, f func([]string), i int) {
 		f(a)
 		return
 	}
+
 	perm(a, f, i+1)
+
 	for j := i + 1; j < len(a); j++ {
 		a[i], a[j] = a[j], a[i]
 		perm(a, f, i+1)
@@ -48,6 +50,7 @@ func perm(a []string, f func([]string), i int) {
 
 func fDistances(directions []string, f func(...int) int) int {
 	cityGraph, cities := make(map[string]map[string]int), make(map[string]struct{})
+
 	for _, direction := range directions {
 		var (
 			src, dst string
@@ -58,14 +61,18 @@ func fDistances(directions []string, f func(...int) int) int {
 			if _, ok := cityGraph[dst]; !ok {
 				cityGraph[dst] = make(map[string]int)
 			}
+
 			if _, ok := cityGraph[src]; !ok {
 				cityGraph[src] = make(map[string]int)
 			}
+
 			cities[dst], cities[src] = struct{}{}, struct{}{}
 			cityGraph[dst][src], cityGraph[src][dst] = distance, distance
 		}
 	}
+
 	var res int = f()
+
 	Perm(cities, func(cities []string) {
 		var sum int
 		for i, city := range cities[1:] {
@@ -73,11 +80,13 @@ func fDistances(directions []string, f func(...int) int) int {
 		}
 		res = f(res, sum)
 	})
+
 	return res
 }
 
 func main() {
 	flag.Parse()
+
 	directions := read.Strings(flagInput, separator)
 	utils.AssertEqual(fDistances(directions, mathematic.MinInt), resShortest)
 	utils.AssertEqual(fDistances(directions, mathematic.MaxInt), resLongest)

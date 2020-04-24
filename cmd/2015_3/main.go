@@ -29,6 +29,7 @@ func countAtLeastOnePresent(moves []byte, roboSanta bool) int {
 		if roboSanta && i%2 == 1 {
 			pt = &roboSantaPosition
 		}
+
 		switch move {
 		case "^"[0]:
 			pt.X++
@@ -38,15 +39,17 @@ func countAtLeastOnePresent(moves []byte, roboSanta bool) int {
 			pt.Y--
 		case ">"[0]:
 			pt.Y++
-
 		}
+
 		houses[*pt] = struct{}{}
 	}
+
 	return len(houses)
 }
 
 func main() {
 	flag.Parse()
+
 	moves := read.Bytes(flagInput)
 	utils.AssertEqual(countAtLeastOnePresent(moves, false), resHousesCount)
 	utils.AssertEqual(countAtLeastOnePresent(moves, true), resHousesCountRobo)

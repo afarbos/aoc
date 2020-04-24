@@ -37,6 +37,7 @@ func countLitLights(instructions []string) int {
 		}
 
 		var f func(bool) bool
+
 		switch m[1] {
 		case "toggle":
 			f = func(b bool) bool { return !b }
@@ -80,6 +81,7 @@ func countDimLitLights(instructions []string) int {
 		}
 
 		var f func(int) int
+
 		switch m[1] {
 		case "toggle":
 			f = func(i int) int { return i + 2 }
@@ -112,6 +114,7 @@ func countDimLitLights(instructions []string) int {
 
 func main() {
 	flag.Parse()
+
 	instructions := read.Strings(flagInput, separator)
 	utils.AssertEqual(countLitLights(instructions), resCounLitLights)
 	utils.AssertEqual(countDimLitLights(instructions), resCountDimLitLights)

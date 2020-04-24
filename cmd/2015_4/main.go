@@ -33,20 +33,24 @@ func findHashCoin(secretKey, expectedPrefix string) int {
 		if _, err := io.WriteString(h, secretKey+strconv.Itoa(i)); err != nil {
 			log.Fatal(err)
 		}
+
 		if strings.HasPrefix(fmt.Sprintf("%x", h.Sum(nil)), expectedPrefix) {
 			return i
 		}
 	}
 	log.Fatal("no hash coin found")
+
 	return 0
 }
 
 func main() {
 	flag.Parse()
+
 	secretKey := read.String(flagInput)
 	if len(secretKey) != 0 {
 		secretKey = secretKey[:len(secretKey)-1]
 	}
+
 	utils.AssertEqual(findHashCoin(secretKey, fiveZero), resFiveZero)
 	utils.AssertEqual(findHashCoin(secretKey, sixZero), resSixZero)
 }
