@@ -6,6 +6,7 @@ import (
 
 	"github.com/afarbos/aoc/pkg/mathematic"
 	"github.com/afarbos/aoc/pkg/read"
+	"github.com/afarbos/aoc/pkg/str"
 	"github.com/afarbos/aoc/pkg/utils"
 )
 
@@ -21,35 +22,6 @@ const (
 
 func init() {
 	utils.Init(&flagInput)
-}
-
-func perm(a []string, f func([]string), i int) {
-	if i > len(a) {
-		f(a)
-		return
-	}
-
-	perm(a, f, i+1)
-
-	for j := i + 1; j < len(a); j++ {
-		a[i], a[j] = a[j], a[i]
-		perm(a, f, i+1)
-		a[i], a[j] = a[j], a[i]
-	}
-}
-
-func perms(set map[string]struct{}, f func([]string)) {
-	var (
-		list = make([]string, len(set))
-		i    = 0
-	)
-
-	for v := range set {
-		list[i] = v
-		i++
-	}
-
-	perm(list, f, 0)
 }
 
 func fDistances(directions []string, f func(...int) int) int {
@@ -77,7 +49,7 @@ func fDistances(directions []string, f func(...int) int) int {
 
 	var res int = f()
 
-	perms(cities, func(cities []string) {
+	str.Permutations(cities, func(cities []string) {
 		var sum int
 		for i, city := range cities[1:] {
 			sum += cityGraph[cities[i]][city]
