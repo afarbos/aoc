@@ -3,6 +3,7 @@ package main
 import (
 	"testing"
 
+	"github.com/afarbos/aoc/pkg/test"
 	"github.com/afarbos/aoc/pkg/utils"
 )
 
@@ -21,17 +22,13 @@ var (
 
 func TestCountAtLeastOnePresent(t *testing.T) {
 	for moves, resExpected := range testDataCountAtLeastOnePresent {
-		if housesCount := countAtLeastOnePresent([]byte(moves), false); housesCount != resExpected {
-			t.Error("expected ", resExpected, " got ", housesCount)
-		}
+		test.EqualInt(t, countAtLeastOnePresent([]byte(moves), false), resExpected)
 	}
 }
 
 func TestCountAtLeastOnePresentWithRoboSanta(t *testing.T) {
 	for moves, resExpected := range testDataCountAtLeastOnePresentWithRoboSanta {
-		if housesCount := countAtLeastOnePresent([]byte(moves), true); housesCount != resExpected {
-			t.Error("expected ", resExpected, " got ", housesCount)
-		}
+		test.EqualInt(t, countAtLeastOnePresent([]byte(moves), true), resExpected)
 	}
 }
 

@@ -3,6 +3,7 @@ package main
 import (
 	"testing"
 
+	"github.com/afarbos/aoc/pkg/test"
 	"github.com/afarbos/aoc/pkg/utils"
 )
 
@@ -20,17 +21,13 @@ var (
 
 func TestTotalWrappingPaperArea(t *testing.T) {
 	for resExpected, giftSizes := range testDataTotalWrappingPaperArea {
-		if sum := totalWrappingPaperArea(giftSizes); sum != resExpected {
-			t.Error("Total wrapping paper surface area expected", resExpected, "got", sum)
-		}
+		test.EqualInt(t, totalWrappingPaperArea(giftSizes), resExpected)
 	}
 }
 
 func TestTotalRibbon(t *testing.T) {
 	for resExpected, giftSizes := range testDataTotalRibbon {
-		if sum := totalRibbon(giftSizes); sum != resExpected {
-			t.Error("Total ribbon expected", resExpected, "got", sum)
-		}
+		test.EqualInt(t, totalRibbon(giftSizes), resExpected)
 	}
 }
 

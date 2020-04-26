@@ -3,6 +3,7 @@ package main
 import (
 	"testing"
 
+	"github.com/afarbos/aoc/pkg/test"
 	"github.com/afarbos/aoc/pkg/utils"
 )
 
@@ -18,9 +19,7 @@ var (
 
 func TestLookAndSayLen(t *testing.T) {
 	for start, resExpected := range testData {
-		if res := lookAndSayLen(start, 1); res != resExpected {
-			t.Error("expected ", resExpected, " got ", res)
-		}
+		test.EqualInt(t, lookAndSayLen(start, 1), resExpected)
 	}
 }
 

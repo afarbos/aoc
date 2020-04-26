@@ -3,6 +3,7 @@ package main
 import (
 	"testing"
 
+	"github.com/afarbos/aoc/pkg/test"
 	"github.com/afarbos/aoc/pkg/utils"
 )
 
@@ -22,28 +23,19 @@ var (
 
 func TestRequiredFuel(t *testing.T) {
 	for mass, expectedFuel := range testDataRequiredFuel {
-		if fuel := requiredFuel(mass); fuel != expectedFuel {
-			t.Error("fuel: expected", expectedFuel, "got", fuel, "mass", mass)
-		}
+		test.EqualInt(t, requiredFuel(mass), expectedFuel)
 	}
 }
 
 func TestRequiredFuelTotal(t *testing.T) {
 	for mass, expectedFuel := range testDataRequiredFuelTotal {
-		if fuel := requiredFuelTotal(mass); fuel != expectedFuel {
-			t.Error("total fuel: expected", expectedFuel, "got", fuel, "mass", mass)
-		}
+		test.EqualInt(t, requiredFuelTotal(mass), expectedFuel)
 	}
 }
 
 func TestSumFuelRequirements(t *testing.T) {
-	if sumFuelRequirements([]int{12, 14, 1969, 100756}, requiredFuel) != 34241 {
-		t.Error("sum fuel requirements")
-	}
-
-	if sumFuelRequirements([]int{14, 1969, 100756}, requiredFuelTotal) != 51314 {
-		t.Error("sum fuel requirements total")
-	}
+	test.EqualInt(t, sumFuelRequirements([]int{12, 14, 1969, 100756}, requiredFuel), 34241)
+	test.EqualInt(t, sumFuelRequirements([]int{14, 1969, 100756}, requiredFuelTotal), 51314)
 }
 
 func BenchmarkMain(b *testing.B) {

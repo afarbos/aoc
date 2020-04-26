@@ -3,6 +3,7 @@ package main
 import (
 	"testing"
 
+	"github.com/afarbos/aoc/pkg/test"
 	"github.com/afarbos/aoc/pkg/utils"
 )
 
@@ -38,9 +39,7 @@ func TestClosestManhattanDistance(t *testing.T) {
 	for manhattanDistance, wires := range testDataClosestManhattanDistance {
 		g := newGrid(wires)
 
-		if res := g.closestManhattanDistance(); res != manhattanDistance {
-			t.Error("wire distance expected", manhattanDistance, "got", res)
-		}
+		test.EqualInt(t, g.closestManhattanDistance(), manhattanDistance)
 	}
 }
 
@@ -48,9 +47,7 @@ func TestClosestIntersection(t *testing.T) {
 	for manhattanDistance, wires := range testDataClosestIntersection {
 		g := newGrid(wires)
 
-		if res := g.closestIntersection(); res != manhattanDistance {
-			t.Error("wire intersection expected", manhattanDistance, "got", res)
-		}
+		test.EqualInt(t, g.closestIntersection(), manhattanDistance)
 	}
 }
 

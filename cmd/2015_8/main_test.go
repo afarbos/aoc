@@ -3,6 +3,7 @@ package main
 import (
 	"testing"
 
+	"github.com/afarbos/aoc/pkg/test"
 	"github.com/afarbos/aoc/pkg/utils"
 )
 
@@ -30,17 +31,13 @@ var (
 
 func TestDiffStrUnquote(t *testing.T) {
 	for str, resExpected := range testDataDiffStrUnquote {
-		if res := diffStrUnquote(str); res != resExpected {
-			t.Error("expected ", resExpected, " got ", res)
-		}
+		test.EqualInt(t, diffStrUnquote(str), resExpected)
 	}
 }
 
 func TestDiffStrQuote(t *testing.T) {
 	for str, resExpected := range testDataDiffStrQuote {
-		if res := diffStrQuote(str); res != resExpected {
-			t.Error("expected ", resExpected, " got ", res)
-		}
+		test.EqualInt(t, diffStrQuote(str), resExpected)
 	}
 }
 

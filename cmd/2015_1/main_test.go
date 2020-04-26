@@ -3,6 +3,7 @@ package main
 import (
 	"testing"
 
+	"github.com/afarbos/aoc/pkg/test"
 	"github.com/afarbos/aoc/pkg/utils"
 )
 
@@ -26,17 +27,13 @@ var (
 
 func TestFloor(t *testing.T) {
 	for parenthesis, resExpected := range testDataFloor {
-		if lastFloor := floor([]byte(parenthesis)); lastFloor != resExpected {
-			t.Error("last floor expected", resExpected, "got", lastFloor)
-		}
+		test.EqualInt(t, floor([]byte(parenthesis)), resExpected)
 	}
 }
 
 func TestBasement(t *testing.T) {
 	for parenthesis, resExpected := range testDataBasement {
-		if lastFloor := basement([]byte(parenthesis)); lastFloor != resExpected {
-			t.Error("first basement expected", resExpected, "got", lastFloor)
-		}
+		test.EqualInt(t, basement([]byte(parenthesis)), resExpected)
 	}
 }
 

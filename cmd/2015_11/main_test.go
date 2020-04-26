@@ -3,6 +3,7 @@ package main
 import (
 	"testing"
 
+	"github.com/afarbos/aoc/pkg/test"
 	"github.com/afarbos/aoc/pkg/utils"
 )
 
@@ -14,9 +15,8 @@ func TestNextPassword(t *testing.T) {
 
 	for pwd, resExpected := range testData {
 		bPwd := []byte(pwd)
-		if nextPassword(bPwd); string(bPwd) != resExpected {
-			t.Error("expected ", resExpected, " got ", string(bPwd))
-		}
+		nextPassword(bPwd)
+		test.EqualString(t, string(bPwd), resExpected)
 	}
 }
 
@@ -28,9 +28,7 @@ func TestIsPasswordValid(t *testing.T) {
 	}
 
 	for pwd, resExpected := range testData {
-		if res := isPasswordValid([]byte(pwd)); res != resExpected {
-			t.Error("expected ", resExpected, " got ", res)
-		}
+		test.EqualBool(t, isPasswordValid([]byte(pwd)), resExpected)
 	}
 }
 

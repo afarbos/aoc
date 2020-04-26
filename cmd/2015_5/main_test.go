@@ -3,6 +3,7 @@ package main
 import (
 	"testing"
 
+	"github.com/afarbos/aoc/pkg/test"
 	"github.com/afarbos/aoc/pkg/utils"
 )
 
@@ -35,25 +36,19 @@ var (
 
 func TestIsVowels(t *testing.T) {
 	for char, resExpected := range testDataIsVowels {
-		if res := isVowels(char); res != resExpected {
-			t.Error("expected ", resExpected, " got ", res)
-		}
+		test.EqualBool(t, isVowels(char), resExpected)
 	}
 }
 
 func TestCountNice(t *testing.T) {
 	for str, resExpected := range testDataCountNice {
-		if count := countNice([]string{str}); count != resExpected {
-			t.Error(str, " expected ", resExpected, " got ", count)
-		}
+		test.EqualInt(t, countNice([]string{str}), resExpected)
 	}
 }
 
 func TestCountReallyNice(t *testing.T) {
 	for str, resExpected := range testDataCountReallyNice {
-		if count := countReallyNice([]string{str}); count != resExpected {
-			t.Error(str, " expected ", resExpected, " got ", count)
-		}
+		test.EqualInt(t, countReallyNice([]string{str}), resExpected)
 	}
 }
 

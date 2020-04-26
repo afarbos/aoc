@@ -3,6 +3,7 @@ package main
 import (
 	"testing"
 
+	"github.com/afarbos/aoc/pkg/test"
 	"github.com/afarbos/aoc/pkg/utils"
 )
 
@@ -36,17 +37,15 @@ var (
 
 func TestIsPasswordValid(t *testing.T) {
 	for pwd, expectedRes := range testDataPwdValid {
-		if isValid, _ := isPasswordValid(pwd, false); isValid != expectedRes {
-			t.Error("Is password valid expected", expectedRes, "got", pwd)
-		}
+		isValid, _ := isPasswordValid(pwd, false)
+		test.EqualBool(t, isValid, expectedRes)
 	}
 }
 
 func TestIsPasswordValidLarge(t *testing.T) {
 	for pwd, expectedRes := range testDataPwdValidLarge {
-		if isValid, _ := isPasswordValid(pwd, true); isValid != expectedRes {
-			t.Error("Is password large valid expected", expectedRes, "got", pwd)
-		}
+		isValid, _ := isPasswordValid(pwd, true)
+		test.EqualBool(t, isValid, expectedRes)
 	}
 }
 

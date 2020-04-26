@@ -3,6 +3,7 @@ package main
 import (
 	"testing"
 
+	"github.com/afarbos/aoc/pkg/test"
 	"github.com/afarbos/aoc/pkg/utils"
 )
 
@@ -18,17 +19,13 @@ var (
 
 func TestCountLitLights(t *testing.T) {
 	for instruction, resExpected := range testDataCountLitLights {
-		if res := countLitLights([]string{instruction}); res != resExpected {
-			t.Error("expected ", resExpected, " got ", res)
-		}
+		test.EqualInt(t, countLitLights([]string{instruction}), resExpected)
 	}
 }
 
 func TestCountDimLitLights(t *testing.T) {
 	for instruction, resExpected := range testDataCountDimLitLights {
-		if res := countDimLitLights([]string{instruction}); res != resExpected {
-			t.Error("expected ", resExpected, " got ", res)
-		}
+		test.EqualInt(t, countDimLitLights([]string{instruction}), resExpected)
 	}
 }
 

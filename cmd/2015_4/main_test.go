@@ -3,6 +3,7 @@ package main
 import (
 	"testing"
 
+	"github.com/afarbos/aoc/pkg/test"
 	"github.com/afarbos/aoc/pkg/utils"
 )
 
@@ -15,9 +16,7 @@ var (
 
 func TestFindHashCoin(t *testing.T) {
 	for secretKey, resExpected := range testDataFindHashCoinFive {
-		if hash := findHashCoin(secretKey, fiveZero); hash != resExpected {
-			t.Error("expected ", resExpected, " got ", hash)
-		}
+		test.EqualInt(t, findHashCoin(secretKey, fiveZero), resExpected)
 	}
 }
 

@@ -1,6 +1,10 @@
 package intcode
 
-import "testing"
+import (
+	"testing"
+
+	"github.com/afarbos/aoc/pkg/test"
+)
 
 func TestComputeNoInput(t *testing.T) {
 	var computeInstructions = map[int][]int{
@@ -14,20 +18,13 @@ func TestComputeNoInput(t *testing.T) {
 	}
 
 	for expectedRes, inst := range computeInstructions {
-		res := Compute(inst, &Option{MaxOp: Multiply})
-		if res != expectedRes {
-			t.Error("expected", expectedRes, "got", res)
-		}
+		test.EqualInt(t, Compute(inst, &Option{MaxOp: Multiply}), expectedRes)
 	}
 }
 
 func TestComputeInput(t *testing.T) {
 	input := 42
-	res := Compute([]int{3, 0, 4, 0, 99}, &Option{MaxOp: Output, Input: input})
-
-	if res != input {
-		t.Error("expected", input, "got", res)
-	}
+	test.EqualInt(t, Compute([]int{3, 0, 4, 0, 99}, &Option{MaxOp: Output, Input: input}), input)
 }
 
 func TestComputeEquals(t *testing.T) {
@@ -38,10 +35,7 @@ func TestComputeEquals(t *testing.T) {
 		}
 
 		for _, inst := range [][]int{{3, 9, 8, 9, 10, 9, 4, 9, 99, -1, 8}, {3, 3, 1108, -1, 8, 3, 4, 3, 99}} {
-			res := Compute(inst, &Option{MaxOp: Equals, Input: input})
-			if res != resExpected {
-				t.Error("expected", input, "got", res)
-			}
+			test.EqualInt(t, Compute(inst, &Option{MaxOp: Equals, Input: input}), resExpected)
 		}
 	}
 }
@@ -54,10 +48,7 @@ func TestComputeLess(t *testing.T) {
 		}
 
 		for _, inst := range [][]int{{3, 9, 7, 9, 10, 9, 4, 9, 99, -1, 8}, {3, 3, 1107, -1, 8, 3, 4, 3, 99}} {
-			res := Compute(inst, &Option{MaxOp: Less, Input: input})
-			if res != resExpected {
-				t.Error("expected", input, "got", res)
-			}
+			test.EqualInt(t, Compute(inst, &Option{MaxOp: Less, Input: input}), resExpected)
 		}
 	}
 }
@@ -72,11 +63,7 @@ func TestComputeJump(t *testing.T) {
 		for _, inst := range computeInstructions {
 			instructions := make([]int, len(inst))
 			copy(instructions, inst)
-			res := Compute(instructions, &Option{MaxOp: JumpFalse, Input: input})
-
-			if res != resExpected {
-				t.Error("expected", resExpected, "got", res)
-			}
+			test.EqualInt(t, Compute(instructions, &Option{MaxOp: JumpFalse, Input: input}), resExpected)
 		}
 	}
 }

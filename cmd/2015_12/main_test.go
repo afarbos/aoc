@@ -3,6 +3,7 @@ package main
 import (
 	"testing"
 
+	"github.com/afarbos/aoc/pkg/test"
 	"github.com/afarbos/aoc/pkg/utils"
 )
 
@@ -20,9 +21,7 @@ func TestSumAllNumbers(t *testing.T) {
 	}
 
 	for resExpected, i := range testData {
-		if res := sumAllNumbers(i, true); res != resExpected {
-			t.Error("expected ", resExpected, " got ", res)
-		}
+		test.EqualInt(t, sumAllNumbers(i, true), resExpected)
 	}
 }
 

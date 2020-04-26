@@ -4,6 +4,7 @@ import (
 	"strings"
 	"testing"
 
+	"github.com/afarbos/aoc/pkg/test"
 	"github.com/afarbos/aoc/pkg/utils"
 )
 
@@ -36,9 +37,7 @@ var (
 func TestWireSignal(t *testing.T) {
 	for instructions, wires := range testDataWireSignal {
 		for wire, resExpected := range wires {
-			if res := wireSignal(strings.Split(instructions, separator), wire); res != resExpected {
-				t.Error("wire ", wire, " expected ", resExpected, " got ", res)
-			}
+			test.EqualUint16(t, wireSignal(strings.Split(instructions, separator), wire), resExpected)
 		}
 	}
 }
