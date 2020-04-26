@@ -1,6 +1,7 @@
 package read
 
 import (
+	"encoding/json"
 	"io/ioutil"
 	"log"
 	"strconv"
@@ -48,4 +49,12 @@ func Read(path, sep string) []int {
 	}
 
 	return res
+}
+
+// JSON read a file and load the data in the interface.
+func JSON(path string, i interface{}) {
+	data := Bytes(path)
+	if err := json.Unmarshal(data, i); err != nil {
+		log.Fatal(err)
+	}
 }
