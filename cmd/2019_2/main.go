@@ -4,6 +4,7 @@ import (
 	"flag"
 	"log"
 
+	"github.com/afarbos/aoc/pkg/intcode"
 	"github.com/afarbos/aoc/pkg/read"
 	"github.com/afarbos/aoc/pkg/utils"
 )
@@ -24,32 +25,15 @@ func init() {
 	utils.Init(&flagInput)
 }
 
-func compute(instructions []int, noun, verb int) int {
-	instructions[1] = noun
-	instructions[2] = verb
-
-	for index := 0; index < len(instructions); index += 4 {
-		switch instructions[index] {
-		case 1: // Add
-			instructions[instructions[index+3]] = instructions[instructions[index+1]] + instructions[instructions[index+2]]
-		case 2: // Multiply
-			instructions[instructions[index+3]] = instructions[instructions[index+1]] * instructions[instructions[index+2]]
-		case 99: // Stop
-			return instructions[0]
-		}
-	}
-	log.Fatal("No 99 code found")
-
-	return 0
-}
-
 func findNounVerb(instructions []int, maxNoun, maxVerb, expectedOutput int) int {
 	for noun := 0; noun < maxNoun; noun++ {
 		for verb := 0; verb < maxVerb; verb++ {
 			tmp := make([]int, len(instructions))
 			copy(tmp, instructions)
+			tmp[1] = noun
+			tmp[2] = verb
 
-			if compute(tmp, noun, verb) == expectedOutput {
+			if intcode.Compute(tmp, &intcode.Option{MaxOp: intcode.Multiply}) == expectedOutput {
 				return 100*noun + verb
 			}
 		}
@@ -66,6 +50,8 @@ func main() {
 	instructions2 := make([]int, len(instructions))
 	copy(instructions2, instructions)
 
-	utils.AssertEqual(compute(instructions, instruction1, instruction2), resCompute)
+	instructions[1] = instruction1
+	instructions[2] = instruction2
+	utils.AssertEqual(intcode.Compute(instructions, &intcode.Option{MaxOp: intcode.Multiply}), resCompute)
 	utils.AssertEqual(findNounVerb(instructions2, maxNounVerb, maxNounVerb, output), resFindNounVerb)
 }

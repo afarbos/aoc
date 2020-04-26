@@ -19,3 +19,12 @@ func Atoi(strings ...string) ([]int, error) {
 
 	return res, err
 }
+
+// Btoi convert a bool to type int.
+func Btoi(b bool) int {
+	if b {
+		return 1
+	}
+
+	return 0
+}
