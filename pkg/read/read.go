@@ -12,7 +12,9 @@ const eol = "\n"
 
 // Bytes read a file and return a slice of byte.
 func Bytes(path string) []byte {
+	log.Println("Reading file", path)
 	b, err := ioutil.ReadFile(path)
+
 	if err != nil {
 		log.Fatal(err)
 	}
