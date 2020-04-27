@@ -65,20 +65,24 @@ func maxDistance(reindeers []string, raceDuration int) int {
 
 func maxPoint(reindeers []string, raceDuration int) int {
 	var reindeersPostitions = make(map[*reindeer]*int)
+
 	for _, reindeerStr := range reindeers {
 		if reindeerStr == "" {
 			continue
 		}
+
 		var d = 0
 		reindeersPostitions[newReindeer(reindeerStr)] = &d
 	}
 
 	for s := 0; s < raceDuration; s++ {
 		var leads []*reindeer
+
 		for r, d := range reindeersPostitions {
 			if r.isFlying(s) {
 				*d += r.speed
 			}
+
 			if len(leads) == 0 || *reindeersPostitions[leads[0]] < *d {
 				leads = []*reindeer{r}
 			} else if *reindeersPostitions[leads[0]] == *d {
