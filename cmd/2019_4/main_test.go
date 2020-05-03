@@ -16,8 +16,8 @@ const (
 	ones        = 111111
 )
 
-var (
-	testDataPwdValid = map[int]bool{
+func TestIsPasswordValid(t *testing.T) {
+	testDataPwdValid := map[int]bool{
 		decrease:    false,
 		fourSuffix:  true,
 		nodouble:    false,
@@ -25,17 +25,7 @@ var (
 		oneTwoThree: true,
 		ones:        true,
 	}
-	testDataPwdValidLarge = map[int]bool{
-		decrease:    false,
-		fourSuffix:  false,
-		nodouble:    false,
-		oneTwo:      true,
-		oneTwoThree: true,
-		ones:        false,
-	}
-)
 
-func TestIsPasswordValid(t *testing.T) {
 	for pwd, expectedRes := range testDataPwdValid {
 		isValid, _ := isPasswordValid(pwd, false)
 		test.EqualBool(t, isValid, expectedRes)
@@ -43,6 +33,15 @@ func TestIsPasswordValid(t *testing.T) {
 }
 
 func TestIsPasswordValidLarge(t *testing.T) {
+	testDataPwdValidLarge := map[int]bool{
+		decrease:    false,
+		fourSuffix:  false,
+		nodouble:    false,
+		oneTwo:      true,
+		oneTwoThree: true,
+		ones:        false,
+	}
+
 	for pwd, expectedRes := range testDataPwdValidLarge {
 		isValid, _ := isPasswordValid(pwd, true)
 		test.EqualBool(t, isValid, expectedRes)

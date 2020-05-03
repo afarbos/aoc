@@ -28,13 +28,25 @@ func String(path string) string {
 }
 
 // Strings read a file and return a slice of string, splitted with sep.
-func Strings(path, sep string) []string {
-	return strings.Split(String(path), sep)
+func Strings(path string, sep ...string) []string {
+	var s = eol
+
+	if len(sep) > 0 {
+		s = sep[0]
+	}
+
+	return strings.Split(String(path), s)
 }
 
 // Read read a file and return a slice of int, splitted with sep.
-func Read(path, sep string) []int {
-	s := Strings(path, sep)
+func Read(path string, sep ...string) []int {
+	var separator = eol
+
+	if len(sep) > 0 {
+		separator = sep[0]
+	}
+
+	s := Strings(path, separator)
 	res := make([]int, len(s))
 
 	for index, v := range s {

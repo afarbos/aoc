@@ -7,27 +7,24 @@ import (
 	"github.com/afarbos/aoc/pkg/utils"
 )
 
-var (
-	testDataRequiredFuel = map[int]int{
+func TestRequiredFuel(t *testing.T) {
+	testDataRequiredFuel := map[int]int{
 		12:     2,
 		14:     2,
 		1969:   654,
 		100756: 33583,
 	}
-	testDataRequiredFuelTotal = map[int]int{
-		14:     2,
-		1969:   966,
-		100756: 50346,
-	}
-)
-
-func TestRequiredFuel(t *testing.T) {
 	for mass, expectedFuel := range testDataRequiredFuel {
 		test.EqualInt(t, requiredFuel(mass), expectedFuel)
 	}
 }
 
 func TestRequiredFuelTotal(t *testing.T) {
+	testDataRequiredFuelTotal := map[int]int{
+		14:     2,
+		1969:   966,
+		100756: 50346,
+	}
 	for mass, expectedFuel := range testDataRequiredFuelTotal {
 		test.EqualInt(t, requiredFuelTotal(mass), expectedFuel)
 	}

@@ -8,12 +8,6 @@ import (
 	"github.com/afarbos/aoc/pkg/utils"
 )
 
-const (
-	separator             = "-"
-	resPasswordCount      = 1099
-	resPasswordCountLarge = 710
-)
-
 var flagInput string
 
 func init() {
@@ -66,6 +60,12 @@ func passwordCount(start, end int, largerGroup bool) int {
 }
 
 func main() {
+	const (
+		separator             = "-"
+		resPasswordCount      = 1099
+		resPasswordCountLarge = 710
+	)
+
 	flag.Parse()
 
 	inputRange := read.Read(flagInput, separator)

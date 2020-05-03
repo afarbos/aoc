@@ -2,7 +2,7 @@ CMD_DIRS :=   $(patsubst cmd/%/main.go, %, $(wildcard cmd/*/main.go))
 CMD_BUILD := $(CMD_DIRS:%=%_build)
 CMD_RUN := $(CMD_DIRS:%=%_run)
 CMD_TEST := $(CMD_DIRS:%=%_test)
-GO_TEST_CMD := go test -coverprofile=coverage.txt -covermode=atomic -bench=.
+GO_TEST_CMD := go test -bench=. -benchmem -coverprofile=coverage.txt -covermode=atomic -race -failfast
 BIN_DIR := ./bin
 CMD_DIR := ./cmd
 

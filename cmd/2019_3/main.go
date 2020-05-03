@@ -13,13 +13,6 @@ import (
 	"github.com/afarbos/aoc/pkg/utils"
 )
 
-const (
-	resClosestIntersection      = 65356
-	resClosestManhattanDistance = 1337
-	separator                   = "\n"
-	wireSepartor                = ","
-)
-
 type point struct {
 	image.Point
 }
@@ -65,6 +58,7 @@ func newGrid(wirePaths []string) *grid {
 }
 
 func (g *grid) addWire(wirePath string, index int) {
+	const wireSepartor = ","
 	directions := strings.Split(wirePath, wireSepartor)
 
 	currentPt := point{image.Pt(0, 0)}
@@ -156,9 +150,14 @@ func (pt *point) manhattanDistance() int {
 }
 
 func main() {
+	const (
+		resClosestIntersection      = 65356
+		resClosestManhattanDistance = 1337
+	)
+
 	flag.Parse()
 
-	wirePaths := read.Strings(flagInput, separator)
+	wirePaths := read.Strings(flagInput)
 	g := newGrid(wirePaths)
 
 	utils.AssertEqual(g.closestManhattanDistance(), resClosestManhattanDistance)

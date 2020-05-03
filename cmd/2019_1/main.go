@@ -8,12 +8,6 @@ import (
 	"github.com/afarbos/aoc/pkg/utils"
 )
 
-const (
-	resSumFuelRequirements      = 3420719
-	resTotalSumFuelRequirements = 5128195
-	separator                   = "\n"
-)
-
 var flagInput string
 
 func init() {
@@ -52,9 +46,14 @@ func sumFuelRequirements(masses []int, f func(int) int) int {
 }
 
 func main() {
+	const (
+		resSumFuelRequirements      = 3420719
+		resTotalSumFuelRequirements = 5128195
+	)
+
 	flag.Parse()
 
-	masses := read.Read(flagInput, separator)
+	masses := read.Read(flagInput)
 	utils.AssertEqual(sumFuelRequirements(masses, requiredFuel), resSumFuelRequirements)
 	utils.AssertEqual(sumFuelRequirements(masses, requiredFuelTotal), resTotalSumFuelRequirements)
 }

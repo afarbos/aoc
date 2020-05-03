@@ -1,8 +1,12 @@
 run:
   modules-download-mode: vendor
 linters-settings:
+  gocyclo:
+    min-complexity: 15
   goimports:
     local-prefixes: github.com/afarbos/aoc/
+  govet:
+    check-shadowing: true
 linters:
   enable:
     - bodyclose

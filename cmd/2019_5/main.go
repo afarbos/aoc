@@ -8,14 +8,6 @@ import (
 	"github.com/afarbos/aoc/pkg/utils"
 )
 
-const (
-	inputAC      = 1
-	inputTR      = 5
-	resComputeAC = 9938601
-	resComputeTR = 4283952
-	separator    = ","
-)
-
 var flagInput string
 
 func init() {
@@ -23,6 +15,14 @@ func init() {
 }
 
 func main() {
+	const (
+		inputAC      = 1
+		inputTR      = 5
+		resComputeAC = 9938601
+		resComputeTR = 4283952
+		separator    = ","
+	)
+
 	flag.Parse()
 
 	var (

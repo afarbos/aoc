@@ -9,16 +9,6 @@ import (
 	"github.com/afarbos/aoc/pkg/utils"
 )
 
-const (
-	instruction1    = 12
-	instruction2    = 2
-	maxNounVerb     = 100
-	output          = 19690720
-	resCompute      = 4090701
-	resFindNounVerb = 6421
-	separator       = ","
-)
-
 var flagInput string
 
 func init() {
@@ -44,6 +34,16 @@ func findNounVerb(instructions []int, maxNoun, maxVerb, expectedOutput int) int 
 }
 
 func main() {
+	const (
+		instruction1    = 12
+		instruction2    = 2
+		maxNounVerb     = 100
+		output          = 19690720
+		resCompute      = 4090701
+		resFindNounVerb = 6421
+		separator       = ","
+	)
+
 	flag.Parse()
 
 	instructions := read.Read(flagInput, separator)
