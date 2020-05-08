@@ -4,7 +4,6 @@
   - [![Go](https://github.com/afarbos/aoc/workflows/Go/badge.svg)](https://github.com/afarbos/aoc/actions?query=workflow%3AGo+branch%3Amaster)
   - [![Go Report Card](https://goreportcard.com/badge/github.com/afarbos/aoc)](https://goreportcard.com/report/github.com/afarbos/aoc)
   - [![Maintainability](https://api.codeclimate.com/v1/badges/3da7115306d7eb4b4b57/maintainability)](https://codeclimate.com/github/afarbos/aoc/maintainability)
-  - [![Scrutinizer](https://scrutinizer-ci.com/g/afarbos/aoc/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/afarbos/aoc/?branch=master)
   - [![Codacy](https://api.codacy.com/project/badge/Grade/912a9a53e2b840548af65e73cd8b1ad2)](https://www.codacy.com/manual/afarbos/aoc?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=afarbos/aoc&amp;utm_campaign=Badge_Grade)
   - [![codebeat badge](https://codebeat.co/badges/73c7e1e8-bfa2-469d-95e6-d39f80ff8825)](https://codebeat.co/projects/github-com-afarbos-aoc-master)
   - [![codecov](https://codecov.io/gh/afarbos/aoc/branch/master/graph/badge.svg)](https://codecov.io/gh/afarbos/aoc)
