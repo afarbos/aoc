@@ -1,28 +1,34 @@
-CMD_DIRS :=   $(patsubst cmd/%/main.go, %, $(wildcard cmd/*/main.go))
-CMD_BUILD := $(CMD_DIRS:%=%_build)
+BIN_DIR := bin/
+COV_DIR := cov/
+CMD_DIR := ./cmd/
+CMD_DIRS := $(patsubst cmd/%/main.go, %, $(wildcard cmd/*/main.go))
+CMD_BUILD := $(CMD_DIRS:%=${BIN_DIR}%)
 CMD_RUN := $(CMD_DIRS:%=%_run)
-CMD_TEST := $(CMD_DIRS:%=%_test)
-GO_TEST_CMD := go test -bench=. -benchmem -coverprofile=coverage.txt -covermode=atomic -race -failfast
-BIN_DIR := ./bin
-CMD_DIR := ./cmd
+TEST_COV := $(CMD_DIRS:%=${COV_DIR}%)
+GO_TEST_CMD := go test -bench=. -benchmem -covermode=atomic -race -failfast
+GO_PKG_FILES := $(wildcard pkg/*/*.go)
+GO_FILES := $(wildcard */*/*.go)
+COVERAGE_TXT := coverage.txt
 
-all: ${CMD_RUN} lint ${CMD_TEST}
+all: run lint test
 
-%_build:
-	go build -o ${BIN_DIR}/$* ${CMD_DIR}/$*/main.go
+${BIN_DIR}%: ${CMD_DIR}%/main.go ${GO_PKG_FILES}
+	go build -o $@ $<
 
 build: ${CMD_BUILD}
 
-%_run: %_build
-	time ${BIN_DIR}/$* --input ${CMD_DIR}/$*/input
+%_run: ${BIN_DIR}%
+	time ${BIN_DIR}$* --input ${CMD_DIR}$*/input
 
 run: ${CMD_RUN}
 
-%_test:
-	${GO_TEST_CMD} ${CMD_DIR}/$*/...
+${COV_DIR}%: ${CMD_DIR}%/main_test.go ${BIN_DIR}%
+	mkdir -p ${COV_DIR} && ${GO_TEST_CMD} -coverprofile=$@ ${CMD_DIR}$*/...
 
-test:
-	${GO_TEST_CMD} ./...
+${COVERAGE_TXT}: ${TEST_COV}
+	cat $^ > $@
 
-lint:
-	golangci-lint run -v
+test: ${COVERAGE_TXT}
+
+lint: ${GO_FILES}
+	golangci-lint run -v 2>&1 | tee lint
