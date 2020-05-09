@@ -23,7 +23,7 @@ func findNounVerb(instructions []int, maxNoun, maxVerb, expectedOutput int) int 
 			tmp[1] = noun
 			tmp[2] = verb
 
-			if intcode.Compute(tmp, &intcode.Option{MaxOp: intcode.Multiply}) == expectedOutput {
+			if intcode.Compute(tmp, intcode.Multiply) == expectedOutput {
 				return 100*noun + verb
 			}
 		}
@@ -52,6 +52,6 @@ func main() {
 
 	instructions[1] = instruction1
 	instructions[2] = instruction2
-	utils.AssertEqual(intcode.Compute(instructions, &intcode.Option{MaxOp: intcode.Multiply}), resCompute)
+	utils.AssertEqual(intcode.Compute(instructions, intcode.Multiply), resCompute)
 	utils.AssertEqual(findNounVerb(instructions2, maxNounVerb, maxNounVerb, output), resFindNounVerb)
 }

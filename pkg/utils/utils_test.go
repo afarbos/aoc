@@ -4,7 +4,7 @@ import (
 	"testing"
 )
 
-func TestUtils(t *testing.T) {
+func TestUtils(_ *testing.T) {
 	var s string
 
 	Init(&s)

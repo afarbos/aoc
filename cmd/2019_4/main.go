@@ -14,13 +14,13 @@ func init() {
 	utils.Init(&flagInput)
 }
 
-func isPasswordValid(password int, largerGroup bool) (bool, int) {
+func isPasswordValid(password int, largerGroup bool) (sameAdjacentDigits bool, next int) {
 	pwd := []byte(strconv.Itoa(password))
 	if len(pwd) != 6 {
 		return false, 0
 	}
 
-	sameAdjacentDigits := false
+	sameAdjacentDigits = false
 
 	for i, digit := range pwd[1:] {
 		if digit < pwd[i] {

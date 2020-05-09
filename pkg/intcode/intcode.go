@@ -1,15 +1,15 @@
 package intcode
 
 import (
-	"log"
-
 	"github.com/afarbos/aoc/pkg/convert"
 )
+
+type opcode int
 
 // OpCodes enumeration of operation code.
 const (
 	// Add paramater 1 and 2 and store it in 3
-	Add = iota + 1
+	Add opcode = iota + 1
 	// Multiply paramater 1 and 2 and store it in 3
 	Multiply
 	// Input stored at parameter 1
@@ -28,93 +28,207 @@ const (
 	Stop = 99
 )
 
-// Option to run the intcode computer including the max opcode or the input for a program.
-type Option struct {
-	index, Input, MaxOp, next int
-	res                       []int
+type program struct {
+	maxOp             opcode
+	index, input      int
+	runners           []runner
+	instructions, res []int
 }
 
-func extractArguments(instructions []int, index int) (int, int, int, int) {
+type runner interface {
+	run(p *program, arg1, arg2, arg3 int) bool
+}
+
+type add struct {
+}
+
+type multiply struct {
+}
+
+type input struct {
+}
+
+type output struct {
+}
+
+type jumpTrue struct {
+}
+
+type jumpFalse struct {
+}
+
+type less struct {
+}
+
+type equals struct {
+}
+
+type stop struct {
+}
+
+// Computer to compute a set of instructions.
+type Computer struct {
+}
+
+func newProgram(maxOp opcode, potentialInput *int, instructions []int) *program {
+	p := &program{
+		instructions: instructions,
+		maxOp:        maxOp,
+		runners: []runner{
+			new(stop),
+			new(add),
+			new(multiply),
+			new(input),
+			new(output),
+			new(jumpTrue),
+			new(jumpFalse),
+			new(less),
+			new(equals),
+		},
+	}
+
+	if potentialInput != nil {
+		p.input = *potentialInput
+	}
+
+	return p
+}
+
+func (p *program) extractArguments() (op opcode, arg1, arg2, arg3 int) {
 	var (
-		instruction = instructions[index]
-		arg1        = index + 1
-		arg2        = index + 2
-		arg3        = index + 3
+		instruction = p.instructions[p.index]
 		a           = instruction % 100000 / 10000
 		b           = instruction % 10000 / 1000
 		c           = instruction % 1000 / 100
-		op          = instruction % 100
 	)
 
-	if a == 0 && arg3 < len(instructions) {
-		arg3 = instructions[arg3]
+	op = opcode(instruction % 100)
+	if op > p.maxOp {
+		if op != Stop {
+			arg1 = -1
+		}
+
+		op = 0
 	}
 
-	if b == 0 && arg2 < len(instructions) {
-		arg2 = instructions[arg2]
+	arg3 = p.index + 3
+	if a == 0 && arg3 < len(p.instructions) {
+		arg3 = p.instructions[arg3]
 	}
 
-	if c == 0 && arg1 < len(instructions) {
-		arg1 = instructions[arg1]
+	arg2 = p.index + 2
+	if b == 0 && arg2 < len(p.instructions) {
+		arg2 = p.instructions[arg2]
+	}
+
+	arg1 = p.index + 1
+	if c == 0 && arg1 < len(p.instructions) {
+		arg1 = p.instructions[arg1]
 	}
 
 	return op, arg1, arg2, arg3
 }
 
-func computeInstruction(instructions []int, opt *Option) bool {
-	op, arg1, arg2, arg3 := extractArguments(instructions, opt.index)
-
-	if op != Stop && op > opt.MaxOp {
-		return false
+func (p *program) result() int {
+	if len(p.res) > 0 {
+		return p.res[len(p.res)-1]
 	}
 
-	switch op {
-	case Add:
-		instructions[arg3] = instructions[arg1] + instructions[arg2]
-	case Multiply:
-		instructions[arg3] = instructions[arg1] * instructions[arg2]
-	case Input:
-		instructions[arg1] = opt.Input
-		opt.next = 2
-	case Output:
-		opt.res = append(opt.res, instructions[arg1])
-		opt.next = 2
-	case JumpTrue:
-		opt.next = 3
-		if instructions[arg1] != 0 {
-			opt.index = instructions[arg2]
-			opt.next = 0
-		}
-	case JumpFalse:
-		opt.next = 3
-		if instructions[arg1] == 0 {
-			opt.index = instructions[arg2]
-			opt.next = 0
-		}
-	case Less:
-		instructions[arg3] = convert.Btoi(instructions[arg1] < instructions[arg2])
-	case Equals:
-		instructions[arg3] = convert.Btoi(instructions[arg1] == instructions[arg2])
-	case Stop:
+	return p.instructions[0]
+}
+
+func (*add) run(p *program, arg1, arg2, arg3 int) bool {
+	p.index += 4
+	p.instructions[arg3] = p.instructions[arg1] + p.instructions[arg2]
+
+	return true
+}
+
+func (*multiply) run(p *program, arg1, arg2, arg3 int) bool {
+	p.index += 4
+	p.instructions[arg3] = p.instructions[arg1] * p.instructions[arg2]
+
+	return true
+}
+
+func (r *input) run(p *program, arg1, arg2, arg3 int) bool {
+	p.index += 2
+	p.instructions[arg1] = p.input
+
+	return true
+}
+
+func (r *output) run(p *program, arg1, arg2, arg3 int) bool {
+	p.index += 2
+	p.res = append(p.res, p.instructions[arg1])
+
+	return true
+}
+
+func (r *jumpTrue) run(p *program, arg1, arg2, arg3 int) bool {
+	p.index += 3
+	if p.instructions[arg1] != 0 {
+		p.index = p.instructions[arg2]
+	}
+
+	return true
+}
+
+func (r *jumpFalse) run(p *program, arg1, arg2, arg3 int) bool {
+	p.index += 3
+	if p.instructions[arg1] == 0 {
+		p.index = p.instructions[arg2]
+	}
+
+	return true
+}
+
+func (*less) run(p *program, arg1, arg2, arg3 int) bool {
+	p.index += 4
+	p.instructions[arg3] = convert.Btoi(p.instructions[arg1] < p.instructions[arg2])
+
+	return true
+}
+
+func (*equals) run(p *program, arg1, arg2, arg3 int) bool {
+	p.index += 4
+	p.instructions[arg3] = convert.Btoi(p.instructions[arg1] == p.instructions[arg2])
+
+	return true
+}
+
+func (*stop) run(p *program, arg1, _, _ int) bool {
+	if arg1 < 0 { // unknown opcode
+		p.index += 4
 		return true
 	}
 
+	// normal stop
 	return false
 }
 
-// Compute run a set instructions (also called program) using the Option provided.
-func Compute(instructions []int, opt *Option) int {
-	for opt.index = 0; opt.index < len(instructions); opt.index += opt.next {
-		opt.next = 4
-		if computeInstruction(instructions, opt) {
-			if len(opt.res) > 0 {
-				return opt.res[len(opt.res)-1]
-			}
+func (p *program) execute() int {
+	var (
+		shouldContinue   = true
+		op               opcode
+		arg1, arg2, arg3 int
+	)
 
-			return instructions[0]
-		}
+	for ; shouldContinue; shouldContinue = p.runners[op].run(p, arg1, arg2, arg3) {
+		op, arg1, arg2, arg3 = p.extractArguments()
 	}
-	log.Fatal("No stop code found")
 
-	return 0
+	return p.result()
+}
+
+// Compute run a set instructions (also called program).
+func Compute(instructions []int, maxOp opcode, inputs ...int) int {
+	var input *int
+	if len(inputs) > 0 {
+		input = &inputs[0]
+	}
+
+	p := newProgram(maxOp, input, instructions)
+
+	return p.execute()
 }

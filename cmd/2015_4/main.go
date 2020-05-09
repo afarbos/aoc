@@ -47,7 +47,7 @@ func main() {
 	flag.Parse()
 
 	secretKey := read.String(flagInput)
-	if len(secretKey) != 0 {
+	if secretKey != "" {
 		secretKey = secretKey[:len(secretKey)-1]
 	}
 

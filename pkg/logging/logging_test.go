@@ -4,7 +4,7 @@ import (
 	"testing"
 )
 
-func TestLogging(t *testing.T) {
+func TestLogging(_ *testing.T) {
 	Flags()
 	Disable()
 }

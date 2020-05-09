@@ -28,12 +28,10 @@ func main() {
 	var (
 		instructionsAC = read.Read(flagInput, separator)
 		instructionsTR = make([]int, len(instructionsAC))
-		optionAC       = &intcode.Option{MaxOp: intcode.Output, Input: inputAC}
-		optionTR       = &intcode.Option{MaxOp: intcode.Equals, Input: inputTR}
 	)
 
 	copy(instructionsTR, instructionsAC)
 
-	utils.AssertEqual(intcode.Compute(instructionsAC, optionAC), resComputeAC)
-	utils.AssertEqual(intcode.Compute(instructionsTR, optionTR), resComputeTR)
+	utils.AssertEqual(intcode.Compute(instructionsAC, intcode.Output, inputAC), resComputeAC)
+	utils.AssertEqual(intcode.Compute(instructionsTR, intcode.Equals, inputTR), resComputeTR)
 }

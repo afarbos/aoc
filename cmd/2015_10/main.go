@@ -26,7 +26,7 @@ func init() {
 
 func lookAndSayNext(s []int) []int {
 	var (
-		res    []int
+		res    = make([]int, 0, len(s)*2)
 		c, num int
 	)
 
@@ -60,7 +60,7 @@ func main() {
 	flag.Parse()
 
 	lookAndSayStart := read.String(flagInput)
-	if len(lookAndSayStart) != 0 {
+	if lookAndSayStart != "" {
 		lookAndSayStart = lookAndSayStart[:len(lookAndSayStart)-1]
 	}
 

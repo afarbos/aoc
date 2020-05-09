@@ -1,12 +1,33 @@
 run:
   modules-download-mode: vendor
 linters-settings:
+  goconst:
+    min-len: 2
+    min-occurrences: 2
+  gocritic:
+    enabled-tags:
+      - diagnostic
+      - experimental
+      - opinionated
+      - performance
+      - style
   gocyclo:
     min-complexity: 15
   goimports:
     local-prefixes: github.com/afarbos/aoc/
+  golint:
+    min-confidence: 0
   govet:
     check-shadowing: true
+  maligned:
+    suggest-new: true
+  prealloc:
+    for-loops: true
+  unparam:
+    check-exported: true
+  whitespace:
+    multi-if: true
+    multi-func: true
 linters:
   enable:
     - bodyclose

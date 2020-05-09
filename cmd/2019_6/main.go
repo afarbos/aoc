@@ -73,7 +73,7 @@ func (g *graph) orbitSum() int {
 	return sum
 }
 
-func (g *graph) minOrbitalTransfer(src string, dst string) int {
+func (g *graph) minOrbitalTransfer(src, dst string) int {
 	var (
 		dstVertex = (*g)[dst]
 		parents   = make(map[string]int)

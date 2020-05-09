@@ -14,9 +14,12 @@ import (
 var flagInput string
 
 const (
-	separator   = "\n"
 	gridSize    = 1000
 	regexpMatch = `(toggle|turn on|turn off) (\d+),(\d+) through (\d+),(\d+)`
+	separator   = "\n"
+	toggle      = "toggle"
+	turnOff     = "turn off"
+	turnOn      = "turn on"
 
 	resCounLitLights     = 569999
 	resCountDimLitLights = 17836115
@@ -39,11 +42,11 @@ func countLitLights(instructions []string) int {
 		var f func(bool) bool
 
 		switch m[1] {
-		case "toggle":
+		case toggle:
 			f = func(b bool) bool { return !b }
-		case "turn on":
+		case turnOn:
 			f = func(bool) bool { return true }
-		case "turn off":
+		case turnOff:
 			f = func(bool) bool { return false }
 		}
 
@@ -83,11 +86,11 @@ func countDimLitLights(instructions []string) int {
 		var f func(int) int
 
 		switch m[1] {
-		case "toggle":
+		case toggle:
 			f = func(i int) int { return i + 2 }
-		case "turn on":
+		case turnOn:
 			f = func(i int) int { return i + 1 }
-		case "turn off":
+		case turnOff:
 			f = func(i int) int { return mathematic.MaxInt(i-1, 0) }
 		}
 
