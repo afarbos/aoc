@@ -2,20 +2,16 @@ package main
 
 import (
 	"flag"
-	"image"
 	"log"
 	"math"
 	"strconv"
 	"strings"
 
 	"github.com/afarbos/aoc/pkg/mathematic"
+	"github.com/afarbos/aoc/pkg/point"
 	"github.com/afarbos/aoc/pkg/read"
 	"github.com/afarbos/aoc/pkg/utils"
 )
-
-type point struct {
-	image.Point
-}
 
 type wire struct {
 	index int
@@ -23,8 +19,8 @@ type wire struct {
 }
 
 type grid struct {
-	grid  map[point][]wire
-	cross []point
+	grid  map[point.Point][]wire
+	cross []point.Point
 }
 
 var flagInput string
@@ -33,24 +29,16 @@ func init() {
 	utils.Init(&flagInput)
 }
 
-func abs(x int) int {
-	if x < 0 {
-		return -x
-	}
-
-	return x
-}
-
 func newGrid(wirePaths []string) *grid {
 	g := new(grid)
-	g.grid = make(map[point][]wire)
+	g.grid = make(map[point.Point][]wire, len(wirePaths))
 
 	for index, wirePath := range wirePaths {
 		if wirePath == "" {
 			continue
 		}
 
-		g.cross = []point{}
+		g.cross = make([]point.Point, 0, len(wirePaths))
 		g.addWire(wirePath, index)
 	}
 
@@ -61,9 +49,9 @@ func (g *grid) addWire(wirePath string, index int) {
 	const wireSepartor = ","
 	directions := strings.Split(wirePath, wireSepartor)
 
-	currentPt := point{image.Pt(0, 0)}
+	currentPt := point.New()
 	currentStep := 0
-	g.grid[currentPt] = []wire{{index, currentStep}}
+	g.grid[*currentPt] = []wire{{index, currentStep}}
 
 	for _, direction := range directions {
 		step, err := strconv.Atoi(direction[1:])
@@ -73,18 +61,18 @@ func (g *grid) addWire(wirePath string, index int) {
 
 		switch direction[0] {
 		case 'R': // Right
-			currentStep = g.add(&currentPt, &currentPt.X, step, currentStep, index)
+			currentStep = g.add(currentPt, &currentPt.X, step, currentStep, index)
 		case 'L': // Left
-			currentStep = g.add(&currentPt, &currentPt.X, -step, currentStep, index)
+			currentStep = g.add(currentPt, &currentPt.X, -step, currentStep, index)
 		case 'U': // Up
-			currentStep = g.add(&currentPt, &currentPt.Y, step, currentStep, index)
+			currentStep = g.add(currentPt, &currentPt.Y, step, currentStep, index)
 		case 'D': // Down
-			currentStep = g.add(&currentPt, &currentPt.Y, -step, currentStep, index)
+			currentStep = g.add(currentPt, &currentPt.Y, -step, currentStep, index)
 		}
 	}
 }
 
-func (g *grid) add(position *point, coordinate *int, step, currentStep, index int) int {
+func (g *grid) add(position *point.Point, coordinate *int, step, currentStep, index int) int {
 	next := 1
 	if step < 0 {
 		next = -1
@@ -114,7 +102,7 @@ func (g *grid) add(position *point, coordinate *int, step, currentStep, index in
 func (g *grid) closestManhattanDistance() int {
 	res := math.MaxInt32
 	for _, pt := range g.cross {
-		res = mathematic.MinInt(res, pt.manhattanDistance())
+		res = mathematic.MinInt(res, pt.GetDistance())
 	}
 
 	return res
@@ -143,10 +131,6 @@ func (g *grid) closestIntersection() int {
 	}
 
 	return res
-}
-
-func (pt *point) manhattanDistance() int {
-	return abs(pt.X) + abs(pt.Y)
 }
 
 func main() {

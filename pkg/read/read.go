@@ -8,7 +8,8 @@ import (
 	"strings"
 )
 
-const eol = "\n"
+// Eol represents the end of line character.
+const Eol = "\n"
 
 // Bytes read a file and return a slice of byte.
 func Bytes(path string) []byte {
@@ -29,7 +30,7 @@ func String(path string) string {
 
 // Strings read a file and return a slice of string, splitted with sep.
 func Strings(path string, sep ...string) []string {
-	var s = eol
+	var s = Eol
 
 	if len(sep) > 0 {
 		s = sep[0]
@@ -40,7 +41,7 @@ func Strings(path string, sep ...string) []string {
 
 // Read read a file and return a slice of int, splitted with sep.
 func Read(path string, sep ...string) []int {
-	var separator = eol
+	var separator = Eol
 
 	if len(sep) > 0 {
 		separator = sep[0]
@@ -54,7 +55,7 @@ func Read(path string, sep ...string) []int {
 			continue
 		}
 
-		i, err := strconv.Atoi(strings.TrimSuffix(v, eol))
+		i, err := strconv.Atoi(strings.TrimSuffix(v, Eol))
 		if err != nil {
 			log.Fatal(err)
 		}

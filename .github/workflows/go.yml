@@ -39,10 +39,18 @@ jobs:
     - name: Test
       run: make test
 
-    - name: Codecov
-      uses: codecov/codecov-action@v1
+    - name: Codecov unit tests
+      uses: codecov/codecov-action@v1.0.7
       with:
-         file: ./coverage.txt
+         file: ./coverage-unit.txt
+         flags: unit
+         fail_ci_if_error: true
+
+    - name: Codecov functional test
+      uses: codecov/codecov-action@v1.0.7
+      with:
+         file: ./coverage-functional.txt
+         flags: functional
          fail_ci_if_error: true
 
     - name: Run

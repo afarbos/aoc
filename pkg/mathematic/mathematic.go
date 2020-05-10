@@ -26,6 +26,15 @@ func MaxInt(nums ...int) int {
 	return res
 }
 
+// AbsInt return the absolute value.
+func AbsInt(x int) int {
+	if x < 0 {
+		return -x
+	}
+
+	return x
+}
+
 // SumString return the sum of f(string).
 func SumString(f func(string) int, strings ...string) int {
 	res := 0
