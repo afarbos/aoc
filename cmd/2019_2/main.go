@@ -16,14 +16,21 @@ func init() {
 }
 
 func findNounVerb(instructions []int, maxNoun, maxVerb, expectedOutput int) int {
+	c := make(chan int)
+
 	for noun := 0; noun < maxNoun; noun++ {
 		for verb := 0; verb < maxVerb; verb++ {
-			tmp := make([]int, len(instructions))
+			var (
+				outputs = make(chan int, 1)
+				tmp     = make([]int, len(instructions))
+			)
+
 			copy(tmp, instructions)
 			tmp[1] = noun
 			tmp[2] = verb
+			intcode.Compute(tmp, intcode.Multiply, c, outputs)
 
-			if intcode.Compute(tmp, intcode.Multiply) == expectedOutput {
+			if <-outputs == expectedOutput {
 				return 100*noun + verb
 			}
 		}
@@ -46,12 +53,18 @@ func main() {
 
 	flag.Parse()
 
-	instructions := read.Read(flagInput, separator)
-	instructions2 := make([]int, len(instructions))
-	copy(instructions2, instructions)
+	var (
+		instructions  = read.Read(flagInput, separator)
+		instructions2 = make([]int, len(instructions))
+		outputs       = make(chan int, 1)
+	)
 
+	copy(instructions2, instructions)
 	instructions[1] = instruction1
 	instructions[2] = instruction2
-	utils.AssertEqual(intcode.Compute(instructions, intcode.Multiply), resCompute)
+
+	intcode.Compute(instructions, intcode.Multiply, make(chan int, 1), outputs)
+
+	utils.AssertEqual(<-outputs, resCompute)
 	utils.AssertEqual(findNounVerb(instructions2, maxNounVerb, maxNounVerb, output), resFindNounVerb)
 }

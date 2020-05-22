@@ -7,8 +7,8 @@ import (
 	"strings"
 
 	"github.com/afarbos/aoc/pkg/mathematic"
+	"github.com/afarbos/aoc/pkg/perm"
 	"github.com/afarbos/aoc/pkg/read"
-	"github.com/afarbos/aoc/pkg/str"
 	"github.com/afarbos/aoc/pkg/utils"
 )
 
@@ -76,7 +76,7 @@ func optimalHappinessChange(happinessChanges []string, me bool) int {
 
 	var res = mathematic.MaxInt()
 
-	str.Permutations(persons, func(persons []string) {
+	perm.Strings(persons, func(persons []string) {
 		var (
 			sum  int
 			last = len(persons) - 1

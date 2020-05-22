@@ -1,8 +1,6 @@
 package intcode
 
-import (
-	"github.com/afarbos/aoc/pkg/convert"
-)
+import "github.com/afarbos/aoc/pkg/convert"
 
 type opcode int
 
@@ -29,51 +27,33 @@ const (
 )
 
 type program struct {
-	maxOp             opcode
-	index, input      int
-	runners           []runner
-	instructions, res []int
+	maxOp           opcode
+	index           int
+	inputs, outputs chan int
+	runners         []runner
+	instructions    []int
 }
 
 type runner interface {
 	run(p *program, arg1, arg2, arg3 int) bool
 }
 
-type add struct {
-}
+type add struct{}
+type multiply struct{}
+type input struct{}
+type output struct{}
+type jumpTrue struct{}
+type jumpFalse struct{}
+type less struct{}
+type equals struct{}
+type stop struct{}
 
-type multiply struct {
-}
-
-type input struct {
-}
-
-type output struct {
-}
-
-type jumpTrue struct {
-}
-
-type jumpFalse struct {
-}
-
-type less struct {
-}
-
-type equals struct {
-}
-
-type stop struct {
-}
-
-// Computer to compute a set of instructions.
-type Computer struct {
-}
-
-func newProgram(maxOp opcode, potentialInput *int, instructions []int) *program {
-	p := &program{
+func newProgram(maxOp opcode, inputs, outputs chan int, instructions []int) *program {
+	return &program{
+		inputs:       inputs,
 		instructions: instructions,
 		maxOp:        maxOp,
+		outputs:      outputs,
 		runners: []runner{
 			new(stop),
 			new(add),
@@ -86,12 +66,6 @@ func newProgram(maxOp opcode, potentialInput *int, instructions []int) *program 
 			new(equals),
 		},
 	}
-
-	if potentialInput != nil {
-		p.input = *potentialInput
-	}
-
-	return p
 }
 
 func (p *program) extractArguments() (op opcode, arg1, arg2, arg3 int) {
@@ -103,7 +77,7 @@ func (p *program) extractArguments() (op opcode, arg1, arg2, arg3 int) {
 	)
 
 	op = opcode(instruction % 100)
-	if op > p.maxOp {
+	if op > p.maxOp || op == 0 {
 		if op != Stop {
 			arg1 = -1
 		}
@@ -129,14 +103,6 @@ func (p *program) extractArguments() (op opcode, arg1, arg2, arg3 int) {
 	return op, arg1, arg2, arg3
 }
 
-func (p *program) result() int {
-	if len(p.res) > 0 {
-		return p.res[len(p.res)-1]
-	}
-
-	return p.instructions[0]
-}
-
 func (*add) run(p *program, arg1, arg2, arg3 int) bool {
 	p.index += 4
 	p.instructions[arg3] = p.instructions[arg1] + p.instructions[arg2]
@@ -151,21 +117,21 @@ func (*multiply) run(p *program, arg1, arg2, arg3 int) bool {
 	return true
 }
 
-func (r *input) run(p *program, arg1, arg2, arg3 int) bool {
+func (*input) run(p *program, arg1, _, _ int) bool {
 	p.index += 2
-	p.instructions[arg1] = p.input
+	p.instructions[arg1] = <-p.inputs
 
 	return true
 }
 
-func (r *output) run(p *program, arg1, arg2, arg3 int) bool {
+func (*output) run(p *program, arg1, _, _ int) bool {
 	p.index += 2
-	p.res = append(p.res, p.instructions[arg1])
+	p.outputs <- p.instructions[arg1]
 
 	return true
 }
 
-func (r *jumpTrue) run(p *program, arg1, arg2, arg3 int) bool {
+func (*jumpTrue) run(p *program, arg1, arg2, _ int) bool {
 	p.index += 3
 	if p.instructions[arg1] != 0 {
 		p.index = p.instructions[arg2]
@@ -174,7 +140,7 @@ func (r *jumpTrue) run(p *program, arg1, arg2, arg3 int) bool {
 	return true
 }
 
-func (r *jumpFalse) run(p *program, arg1, arg2, arg3 int) bool {
+func (*jumpFalse) run(p *program, arg1, arg2, _ int) bool {
 	p.index += 3
 	if p.instructions[arg1] == 0 {
 		p.index = p.instructions[arg2]
@@ -204,10 +170,14 @@ func (*stop) run(p *program, arg1, _, _ int) bool {
 	}
 
 	// normal stop
+	if p.maxOp < Output {
+		p.outputs <- p.instructions[0]
+	}
+
 	return false
 }
 
-func (p *program) execute() int {
+func (p *program) execute() {
 	var (
 		shouldContinue   = true
 		op               opcode
@@ -217,18 +187,9 @@ func (p *program) execute() int {
 	for ; shouldContinue; shouldContinue = p.runners[op].run(p, arg1, arg2, arg3) {
 		op, arg1, arg2, arg3 = p.extractArguments()
 	}
-
-	return p.result()
 }
 
 // Compute run a set instructions (also called program).
-func Compute(instructions []int, maxOp opcode, inputs ...int) int {
-	var input *int
-	if len(inputs) > 0 {
-		input = &inputs[0]
-	}
-
-	p := newProgram(maxOp, input, instructions)
-
-	return p.execute()
+func Compute(instructions []int, maxOp opcode, inputs, outputs chan int) {
+	newProgram(maxOp, inputs, outputs, instructions).execute()
 }

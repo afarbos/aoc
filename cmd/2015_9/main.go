@@ -5,8 +5,8 @@ import (
 	"fmt"
 
 	"github.com/afarbos/aoc/pkg/mathematic"
+	"github.com/afarbos/aoc/pkg/perm"
 	"github.com/afarbos/aoc/pkg/read"
-	"github.com/afarbos/aoc/pkg/str"
 	"github.com/afarbos/aoc/pkg/utils"
 )
 
@@ -49,7 +49,7 @@ func fDistances(directions []string, f func(...int) int) int {
 
 	var res int = f()
 
-	str.Permutations(cities, func(cities []string) {
+	perm.Strings(cities, func(cities []string) {
 		var sum int
 		for i, city := range cities[1:] {
 			sum += cityGraph[cities[i]][city]

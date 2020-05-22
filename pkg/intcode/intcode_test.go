@@ -18,14 +18,19 @@ func TestComputeNoInput(t *testing.T) {
 	}
 
 	for expectedRes, inst := range computeInstructions {
-		test.EqualInt(t, Compute(inst, Multiply), expectedRes)
+		outputs := make(chan int, 1)
+		Compute(inst, Multiply, make(chan int), outputs)
+		test.EqualInt(t, <-outputs, expectedRes)
 	}
 }
 
 func TestComputeInput(t *testing.T) {
 	const input = 42
 
-	test.EqualInt(t, Compute([]int{3, 0, 4, 0, 99}, Output, input), input)
+	inputs, outputs := make(chan int, 1), make(chan int, 1)
+	inputs <- input
+	Compute([]int{3, 0, 4, 0, 99}, Output, inputs, outputs)
+	test.EqualInt(t, <-outputs, input)
 }
 
 func TestComputeEquals(t *testing.T) {
@@ -37,7 +42,10 @@ func TestComputeEquals(t *testing.T) {
 		}
 
 		for _, inst := range [][]int{{3, 9, 8, 9, 10, 9, 4, 9, 99, -1, 8}, {3, 3, 1108, -1, 8, 3, 4, 3, 99}} {
-			test.EqualInt(t, Compute(inst, Equals, input), resExpected)
+			inputs, outputs := make(chan int, 1), make(chan int, 1)
+			inputs <- input
+			Compute(inst, Equals, inputs, outputs)
+			test.EqualInt(t, <-outputs, resExpected)
 		}
 	}
 }
@@ -51,7 +59,10 @@ func TestComputeLess(t *testing.T) {
 		}
 
 		for _, inst := range [][]int{{3, 9, 7, 9, 10, 9, 4, 9, 99, -1, 8}, {3, 3, 1107, -1, 8, 3, 4, 3, 99}} {
-			test.EqualInt(t, Compute(inst, Less, input), resExpected)
+			inputs, outputs := make(chan int, 1), make(chan int, 1)
+			inputs <- input
+			Compute(inst, Less, inputs, outputs)
+			test.EqualInt(t, <-outputs, resExpected)
 		}
 	}
 }
@@ -64,9 +75,16 @@ func TestComputeJump(t *testing.T) {
 
 	for resExpected, input := range []int{0, 42} {
 		for _, inst := range computeInstructions {
-			instructions := make([]int, len(inst))
+			var (
+				instructions    = make([]int, len(inst))
+				inputs, outputs = make(chan int, 1), make(chan int, 1)
+			)
+
 			copy(instructions, inst)
-			test.EqualInt(t, Compute(instructions, JumpFalse, input), resExpected)
+			inputs <- input
+			Compute(instructions, JumpFalse, inputs, outputs)
+
+			test.EqualInt(t, <-outputs, resExpected)
 		}
 	}
 }

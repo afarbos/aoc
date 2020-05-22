@@ -1,4 +1,4 @@
-package str
+package perm
 
 import (
 	"testing"
@@ -9,7 +9,7 @@ import (
 func TestRead(t *testing.T) {
 	count := 0
 
-	Permutations(map[string]struct{}{
+	Strings(map[string]struct{}{
 		"a": {},
 		"b": {},
 	}, func([]string) { count++ })
